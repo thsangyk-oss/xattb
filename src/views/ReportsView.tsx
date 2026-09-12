@@ -108,7 +108,22 @@ const requiredFields: Array<{ key: keyof Device; label: string }> = [
   { key: 'supplier', label: 'Nhà cung cấp' },
 ]
 
-export default function ReportsView({ devices, onToast, scopeName }: { devices: Device[]; onToast: (message: string) => void; scopeName: string }) {
+export default function ReportsView({
+  devices,
+  onToast,
+  scopeName,
+  canSeePrice,
+}: {
+  devices: Device[]
+  onToast: (message: string) => void
+  scopeName: string
+  canSeePrice: boolean
+}) {
+  // Nguyên giá là trường riêng của admin tổng: bỏ hẳn khỏi bộ chọn cột, biểu đồ và tệp xuất.
+  const availableColumns = useMemo(
+    () => canSeePrice ? reportColumns : reportColumns.filter((column) => column.key !== 'price'),
+    [canSeePrice],
+  )
   const [selectedColumns, setSelectedColumns] = useState<ColumnKey[]>(defaultColumns)
   const [department, setDepartment] = useState('Tất cả khoa/phòng')
   const [year, setYear] = useState('Tất cả năm')
@@ -194,7 +209,7 @@ export default function ReportsView({ devices, onToast, scopeName }: { devices: 
         description={`Tạo báo cáo linh hoạt từ dữ liệu thiết bị và xuất tệp dùng ngay trong Excel cho ${scopeName}.`}
         actions={
           <>
-            <button className="button secondary" type="button" onClick={() => setSelectedColumns(reportColumns.map((item) => item.key))}><Save size={17} /> Chọn mọi trường</button>
+            <button className="button secondary" type="button" onClick={() => setSelectedColumns(availableColumns.map((item) => item.key))}><Save size={17} /> Chọn mọi trường</button>
             <button className="button primary" type="button" onClick={exportReport}><Download size={17} /> Xuất CSV</button>
           </>
         }
@@ -217,16 +232,16 @@ export default function ReportsView({ devices, onToast, scopeName }: { devices: 
 
       <div className="report-builder">
         <aside className="field-selector">
-          <header><span><SlidersHorizontal size={17} /></span><div><strong>Trường báo cáo</strong><small>Đã chọn {selectedColumns.length}/{reportColumns.length} trường</small></div></header>
+          <header><span><SlidersHorizontal size={17} /></span><div><strong>Trường báo cáo</strong><small>Đã chọn {selectedColumns.length}/{availableColumns.length} trường</small></div></header>
           <div className="column-actions">
-            <button type="button" onClick={() => setSelectedColumns(reportColumns.map((item) => item.key))}>Chọn tất cả</button>
+            <button type="button" onClick={() => setSelectedColumns(availableColumns.map((item) => item.key))}>Chọn tất cả</button>
             <button type="button" onClick={() => setSelectedColumns(defaultColumns)}>Mặc định</button>
           </div>
           <div className="field-groups">
-            {[...new Set(reportColumns.map((column) => column.group))].map((group) => (
+            {[...new Set(availableColumns.map((column) => column.group))].map((group) => (
               <div className="field-group" key={group}>
                 <strong>{group}</strong>
-                {reportColumns.filter((column) => column.group === group).map((column) => (
+                {availableColumns.filter((column) => column.group === group).map((column) => (
                   <label key={column.key}>
                     <input type="checkbox" checked={selectedColumns.includes(column.key)} onChange={() => toggleColumn(column.key)} />
                     <span className="custom-checkbox">{selectedColumns.includes(column.key) && <Check size={12} />}</span>
@@ -251,7 +266,9 @@ export default function ReportsView({ devices, onToast, scopeName }: { devices: 
           <div className="report-summary">
             <div><span>Kết quả lọc</span><strong>{filtered.length} <small>thiết bị mẫu</small></strong></div>
             <div><span>Đang hoạt động</span><strong>{filtered.filter((device) => device.status === 'Đang hoạt động').length}</strong></div>
-            <div><span>Tổng nguyên giá</span><strong>{(filtered.reduce((sum, device) => sum + device.price, 0) / 1_000_000_000).toFixed(1)} <small>tỷ đồng</small></strong></div>
+            {canSeePrice
+              ? <div><span>Tổng nguyên giá</span><strong>{(filtered.reduce((sum, device) => sum + (device.price ?? 0), 0) / 1_000_000_000).toFixed(1)} <small>tỷ đồng</small></strong></div>
+              : <div><span>Có tài liệu đính kèm</span><strong>{filtered.filter((device) => device.documents.length > 0).length}</strong></div>}
             <div className="group-control"><span>Nhóm biểu đồ theo</span><div className="select-wrap"><select value={groupBy} onChange={(event) => setGroupBy(event.target.value as typeof groupBy)}><option>Khoa/phòng</option><option>Năm sản xuất</option><option>Hãng sản xuất</option></select><ChevronDown size={14} /></div></div>
           </div>
 

@@ -34,6 +34,7 @@ import {
   MaintenanceDetailDialog,
   NewIncidentDialog,
   NewMaintenanceDialog,
+  OverdueReminderDialog,
   PasswordDialog,
   QrDialog,
   UserAccountDialog,
@@ -41,6 +42,7 @@ import {
 import { branches as seedBranches, defaultUserPassword, hospitalName } from './data'
 import type {
   AccessPermission,
+  AlertItem,
   Branch,
   BranchId,
   Department,
@@ -49,10 +51,11 @@ import type {
   Incident,
   IncidentStatus,
   MaintenanceEvent,
+  RepairType,
   UserAccount,
   ViewId,
 } from './types'
-import { buildAlerts } from './utils'
+import { buildAlerts, todayIso } from './utils'
 import PublicReportView from './views/PublicReportView'
 import LoginView from './views/LoginView'
 
@@ -67,8 +70,29 @@ type DialogId = 'add-device' | 'new-incident' | 'new-maintenance' | 'add-user' |
 type BranchScope = BranchId | 'all'
 type AuthSession = { token: string; user: UserAccount }
 
+function LoadingSkeleton() {
+  return (
+    <div className="page" aria-label="Đang tải dữ liệu">
+      <div className="skeleton" style={{ height: 22, width: 220, borderRadius: 8 }} />
+      <div className="skeleton" style={{ height: 38, width: 'min(420px, 100%)', marginTop: -8, borderRadius: 10 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+        {[0, 1, 2, 3].map((index) => (
+          <div key={index} className="skeleton skeleton-box" />
+        ))}
+      </div>
+      <div className="skeleton" style={{ height: 110, borderRadius: 'var(--radius)' }} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1.7fr 1fr', gap: 14 }}>
+        <div className="skeleton" style={{ height: 320, borderRadius: 'var(--radius)' }} />
+        <div className="skeleton" style={{ height: 320, borderRadius: 'var(--radius)' }} />
+      </div>
+    </div>
+  )
+}
+
 const SESSION_KEY = 'xuyen-a-session'
 const BRANCH_KEY = 'xuyen-a-branch'
+/** Lưu "<userId>:<ngày>" của lần cuối người dùng tắt hộp nhắc việc khẩn. */
+const REMINDER_KEY = 'xuyen-a-urgent-reminder'
 
 function loadStored<T>(key: string, fallback: T): T {
   try {
@@ -111,6 +135,9 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; tone: 'ok' | 'error' } | null>(null)
+  const [reminderDismissed, setReminderDismissed] = useState(
+    () => window.localStorage.getItem(REMINDER_KEY) ?? '',
+  )
 
   const publicDeviceId = new URLSearchParams(window.location.search).get('device')
 
@@ -123,6 +150,8 @@ export default function App() {
   const canManageDevices = role === 'admin' || role === 'moderator'
   const canManageBranch = canManageDevices
   const isDepartmentUser = role === 'department'
+  // Giá thiết bị chỉ dành cho admin tổng (máy chủ cũng đã lược bỏ trường này với vai trò khác).
+  const canSeePrice = role === 'admin'
   const sessionToken = session?.token
 
   /* ------------------------------------------------------------ scope */
@@ -161,6 +190,20 @@ export default function App() {
     () => buildAlerts(visibleDevices, visibleIncidents, visibleEvents),
     [visibleDevices, visibleEvents, visibleIncidents],
   )
+  const urgentAlerts = useMemo(() => alerts.filter((alert) => alert.urgent), [alerts])
+
+  // Nhắc mỗi ngày với moderator và tài khoản khoa; admin quản lý chung nên chỉ
+  // nhận trong chuông thông báo để không bị nhắc dồn dập.
+  const reminderToken = session ? `${session.user.id}:${todayIso()}` : ''
+  const showUrgentReminder = Boolean(session)
+    && role !== 'admin'
+    && !loadingData
+    && urgentAlerts.length > 0
+    && reminderDismissed !== reminderToken
+  const dismissReminder = () => {
+    window.localStorage.setItem(REMINDER_KEY, reminderToken)
+    setReminderDismissed(reminderToken)
+  }
 
   const selectedDevice = devices.find((device) => device.id === selectedDeviceId)
   const qrDevice = devices.find((device) => device.id === qrDeviceId)
@@ -404,16 +447,42 @@ export default function App() {
     setIncidentDeviceId(undefined)
   }
 
-  const updateIncidentStatus = (incident: Incident, status: IncidentStatus) => {
-    setIncidents((current) => current.map((item) => item.id === incident.id ? { ...item, status } : item))
-    if (status === 'Đã hoàn tất') {
-      setDevices((current) => current.map((device) => device.id === incident.deviceId
-        ? { ...device, status: 'Đang hoạt động' as const }
-        : device))
-    }
-    void updateIncidentOnServer(incident.id, { status })
-      .then(() => showToast(`Đã chuyển sang “${status}”`))
+  /** Máy chủ là nơi quyết định mốc thời gian và trạng thái thiết bị, nên luôn lấy bản đã lưu về. */
+  const applyIncidentChanges = (incident: Incident, changes: Partial<Incident> & { transferNote?: string }, message: string) => {
+    void updateIncidentOnServer(incident.id, changes)
+      .then((saved) => {
+        setIncidents((current) => current.map((item) => item.id === saved.id ? saved : item))
+        // Trạng thái thiết bị đổi theo sự cố (về lại khoa, thay mới...) nên đồng bộ lại.
+        void syncFromServer().catch(() => undefined)
+        showToast(message)
+      })
       .catch(showError)
+  }
+
+  const updateIncidentStatus = (incident: Incident, status: IncidentStatus) => {
+    applyIncidentChanges(incident, { status }, `Đã chuyển sang “${status}”`)
+  }
+
+  const setRepairType = (incident: Incident, repairType: RepairType, repairConfirmDate: string, transferNote: string) => {
+    const switching = Boolean(incident.repairType) && incident.repairType !== repairType
+    applyIncidentChanges(
+      incident,
+      {
+        repairType,
+        repairConfirmDate,
+        transferNote,
+        status: incident.status === 'Mới tiếp nhận' ? 'Đang xử lý' : incident.status,
+      },
+      switching ? `Đã chuyển sang hình thức “${repairType}”` : `Đã xác nhận hình thức “${repairType}”`,
+    )
+  }
+
+  const completeRepair = (incident: Incident) => {
+    applyIncidentChanges(incident, { status: 'Đã hoàn tất' }, 'Đã ghi nhận hoàn thành sửa chữa')
+  }
+
+  const receiveBackToDepartment = (incident: Incident) => {
+    applyIncidentChanges(incident, { status: 'Đã nhận về khoa' }, 'Khoa đã nhận lại thiết bị')
   }
 
   const assignIncident = (incident: Incident, assignee: string) => {
@@ -594,7 +663,7 @@ export default function App() {
     : effectiveBranchId
   const departmentNames = (visibleDepartments.length ? visibleDepartments : departments).map((item) => item.name)
 
-  const openAlert = (target: { view: ViewId; deviceId?: string; incidentId?: string; eventId?: string }) => {
+  const openAlert = (target: AlertItem) => {
     setNotificationsOpen(false)
     setView(target.view)
     if (target.incidentId) setSelectedIncidentId(target.incidentId)
@@ -615,6 +684,7 @@ export default function App() {
           onShowQr={openQr}
           onReport={(device) => newIncident(device.id)}
           scopeName={scopeName}
+          branches={role === 'admin' && effectiveBranchId === 'all' ? branchCatalog : undefined}
         />
       case 'incidents':
         return <IncidentsView
@@ -625,6 +695,7 @@ export default function App() {
           onOpenIncident={(incident) => setSelectedIncidentId(incident.id)}
           onUpdateStatus={updateIncidentStatus}
           scopeName={scopeName}
+          branches={role === 'admin' && effectiveBranchId === 'all' ? branchCatalog : undefined}
         />
       case 'maintenance':
         return <MaintenanceView
@@ -635,9 +706,15 @@ export default function App() {
           onOpenEvent={(event) => setSelectedEventId(event.id)}
           onComplete={(event) => updateMaintenance(event, { status: 'Hoàn tất' })}
           scopeName={scopeName}
+          branches={role === 'admin' && effectiveBranchId === 'all' ? branchCatalog : undefined}
         />
       case 'reports':
-        return <ReportsView devices={visibleDevices} onToast={(message) => showToast(message)} scopeName={scopeName} />
+        return <ReportsView
+          devices={visibleDevices}
+          onToast={(message) => showToast(message)}
+          scopeName={scopeName}
+          canSeePrice={canSeePrice}
+        />
       case 'organization':
         return <OrganizationView
           devices={visibleDevices}
@@ -667,9 +744,9 @@ export default function App() {
           onNavigate={setView}
           onAddDevice={canManageDevices ? () => { setEditingDevice(null); setDialog('add-device') } : undefined}
           onNewIncident={() => newIncident()}
-          onOpenDevice={(device) => setSelectedDeviceId(device.id)}
           onOpenAlert={openAlert}
           scopeName={scopeName}
+          branches={role === 'admin' && effectiveBranchId === 'all' ? branchCatalog : undefined}
         />
     }
   }
@@ -684,6 +761,8 @@ export default function App() {
         search={globalSearch}
         onSearch={setGlobalSearch}
         onNewIncident={() => newIncident()}
+        onOpenDevice={(device) => setSelectedDeviceId(device.id)}
+        devices={visibleDevices}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         notificationsOpen={notificationsOpen}
@@ -697,8 +776,8 @@ export default function App() {
         onLogout={logout}
         onChangePassword={() => setDialog('password')}
       >
-        <Suspense fallback={<div className="view-loading"><span /><strong>Đang tải dữ liệu...</strong></div>}>
-          {loadingData ? <div className="view-loading"><span /><strong>Đang tải dữ liệu...</strong></div> : renderView()}
+        <Suspense fallback={<LoadingSkeleton />}>
+          {loadingData ? <LoadingSkeleton /> : renderView()}
         </Suspense>
       </AppShell>
 
@@ -708,6 +787,7 @@ export default function App() {
           branches={dialogBranches}
           departments={departmentNames}
           defaultBranchId={defaultDeviceBranch}
+          canSeePrice={canSeePrice}
           onClose={() => { setDialog(null); setEditingDevice(null) }}
           onSave={saveDevice}
         />
@@ -742,6 +822,7 @@ export default function App() {
           incidents={incidents}
           events={events}
           canManage={canManageDevices}
+          canSeePrice={canSeePrice}
           onClose={() => setSelectedDeviceId(null)}
           onShowQr={() => openQr(selectedDevice)}
           onEdit={() => openEdit(selectedDevice)}
@@ -763,6 +844,9 @@ export default function App() {
           onUpdateStatus={(status) => updateIncidentStatus(selectedIncident, status)}
           onAssign={(assignee) => assignIncident(selectedIncident, assignee)}
           onAddNote={(content, date) => addIncidentNote(selectedIncident, content, date)}
+          onSetRepairType={(type, confirmDate, transferNote) => setRepairType(selectedIncident, type, confirmDate, transferNote)}
+          onCompleteRepair={() => completeRepair(selectedIncident)}
+          onReceiveBack={() => receiveBackToDepartment(selectedIncident)}
         />
       )}
       {selectedEvent && (
@@ -773,6 +857,15 @@ export default function App() {
           onClose={() => setSelectedEventId(null)}
           onUpdate={(changes) => updateMaintenance(selectedEvent, changes)}
           onDelete={() => removeMaintenance(selectedEvent)}
+        />
+      )}
+
+      {showUrgentReminder && (
+        <OverdueReminderDialog
+          alerts={urgentAlerts}
+          userName={session.user.displayName}
+          onOpenAlert={(alert) => { dismissReminder(); openAlert(alert) }}
+          onDismiss={dismissReminder}
         />
       )}
 

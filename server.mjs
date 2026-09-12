@@ -66,6 +66,13 @@ ensureArray('events', seedMaintenance)
 ensureArray('departments', seedDepartments)
 ensureArray('users', seedUsers)
 
+// incidents gained a repair type + transfer footprint trail
+state.incidents = state.incidents.map((incident) => {
+  if (Array.isArray(incident.repairHistory)) return incident
+  dirty = true
+  return { ...incident, repairHistory: [] }
+})
+
 // permissions moved from a flat list to one row per branch + department
 if (!Array.isArray(state.permissions) || state.permissions.some((item) => !item.branchId)) {
   state.permissions = structuredClone(seedPermissions)
@@ -181,8 +188,21 @@ const canWriteDevice = (user, device) => {
   return user.role === 'moderator' && device.branchId === user.branchId
 }
 
+// Giá thiết bị là thông tin chỉ dành cho admin tổng: moderator và tài khoản khoa
+// không bao giờ nhận trường này, kể cả trong payload thô của /api/state.
+const canSeePrice = (user) => user?.role === 'admin'
+
+const scopedDevice = (user, device) => {
+  if (canSeePrice(user)) return device
+  const { price, ...rest } = device
+  void price
+  return rest
+}
+
 const scopedState = (user) => {
-  const devices = state.devices.filter((device) => canReadDevice(user, device))
+  const devices = state.devices
+    .filter((device) => canReadDevice(user, device))
+    .map((device) => scopedDevice(user, device))
   const deviceIds = new Set(devices.map((device) => device.id))
   const inBranch = (item) => user.role === 'admin' || item.branchId === user.branchId
   return {
@@ -473,12 +493,14 @@ app.post('/api/devices', requireRole('admin', 'moderator'), async (request, resp
     ...device,
     branchId,
     company: hospitalName,
+    // chỉ admin được đặt nguyên giá; vai trò khác tạo hồ sơ với giá bỏ trống
+    price: canSeePrice(request.user) ? Number(device.price) || 0 : undefined,
     documents: [],
     lastUpdated: new Date().toISOString(),
   }
   state.devices.unshift(saved)
   await persist()
-  return response.status(201).json(saved)
+  return response.status(201).json(scopedDevice(request.user, saved))
 })
 
 app.patch('/api/devices/:id', requireDeviceWrite, async (request, response) => {
@@ -493,10 +515,14 @@ app.patch('/api/devices/:id', requireDeviceWrite, async (request, response) => {
     documents: state.devices[index].documents,
     branchId: request.user.role === 'moderator' ? request.user.branchId : request.body.branchId || state.devices[index].branchId,
     company: hospitalName,
+    // vai trò không xem được giá cũng không được sửa giá — giữ nguyên giá trị cũ
+    price: canSeePrice(request.user) && request.body.price !== undefined
+      ? Number(request.body.price) || 0
+      : state.devices[index].price,
     lastUpdated: new Date().toISOString(),
   }
   await persist()
-  return response.json(state.devices[index])
+  return response.json(scopedDevice(request.user, state.devices[index]))
 })
 
 app.delete('/api/devices/:id', requireDeviceWrite, async (request, response) => {
@@ -520,7 +546,7 @@ app.post('/api/devices/:id/documents', requireDeviceWrite, upload.single('file')
   }
   device.documents.push(document)
   await persist()
-  return response.status(201).json({ document, device })
+  return response.status(201).json({ document, device: scopedDevice(request.user, device) })
 })
 
 app.delete('/api/devices/:id/documents/:documentId', requireDeviceWrite, async (request, response) => {
@@ -532,7 +558,7 @@ app.delete('/api/devices/:id/documents/:documentId', requireDeviceWrite, async (
     await fs.unlink(path.join(uploadDir, path.basename(removed.url))).catch(() => undefined)
   }
   await persist()
-  return response.json(device)
+  return response.json(scopedDevice(request.user, device))
 })
 
 /* --------------------------------------------------------------- incidents */
@@ -546,7 +572,16 @@ app.post('/api/incidents', async (request, response) => {
   const user = getSessionUser(request)
   // báo hỏng qua QR không cần đăng nhập; nếu đã đăng nhập thì phải nằm trong phạm vi
   if (user && !canReadDevice(user, device)) return response.status(403).json({ error: 'Thiết bị nằm ngoài phạm vi của bạn' })
-  state.incidents.unshift({ ...incident, notes: Array.isArray(incident.notes) ? incident.notes : [] })
+  // Người báo hỏng (kể cả khách quét QR) không được tự đặt hướng xử lý hay dấu vết chuyển.
+  state.incidents.unshift({
+    ...incident,
+    notes: Array.isArray(incident.notes) ? incident.notes : [],
+    repairType: undefined,
+    repairConfirmDate: undefined,
+    repairCompletedAt: undefined,
+    returnedAt: undefined,
+    repairHistory: [],
+  })
   device.status = 'Đang sửa chữa'
   device.lastUpdated = new Date().toISOString()
   await persist()
@@ -571,21 +606,76 @@ app.post('/api/incidents/:id/photos', upload.single('file'), async (request, res
   return response.status(201).json(incident)
 })
 
+const repairTypes = ['Tự sửa', 'Báo công ty', 'Chuyển về Hệ thống', 'Thay mới']
+
 app.patch('/api/incidents/:id', requireSession, async (request, response) => {
   const index = state.incidents.findIndex((incident) => incident.id === request.params.id)
   if (index < 0) return response.status(404).json({ error: 'Không tìm thấy sự cố' })
-  const device = state.devices.find((item) => item.id === state.incidents[index].deviceId)
+  const current = state.incidents[index]
+  const device = state.devices.find((item) => item.id === current.deviceId)
   if (!canReadDevice(request.user, device)) return response.status(403).json({ error: 'Sự cố nằm ngoài phạm vi của bạn' })
-  // tài khoản khoa chỉ được bổ sung ghi chú, không đổi trạng thái hay người phụ trách
-  const changes = request.user.role === 'department'
-    ? { notes: request.body.notes ?? state.incidents[index].notes }
-    : request.body
-  state.incidents[index] = { ...state.incidents[index], ...changes, id: state.incidents[index].id }
-  const incident = state.incidents[index]
-  if (incident.status === 'Đã hoàn tất' && device) {
-    device.status = 'Đang hoạt động'
-    device.lastUpdated = new Date().toISOString()
+
+  const body = request.body || {}
+  // Tài khoản khoa chỉ được bổ sung ghi chú và xác nhận đã nhận thiết bị về lại khoa —
+  // đó là hai việc thuộc thẩm quyền của chính khoa đó.
+  const isDepartmentUser = request.user.role === 'department'
+  const receivingBack = body.status === 'Đã nhận về khoa'
+  if (isDepartmentUser && receivingBack && current.status !== 'Đã hoàn tất') {
+    return response.status(400).json({ error: 'Chỉ nhận thiết bị về khoa sau khi sửa chữa đã hoàn thành' })
   }
+  const changes = isDepartmentUser
+    ? {
+      notes: body.notes ?? current.notes,
+      ...(receivingBack ? { status: 'Đã nhận về khoa' } : {}),
+    }
+    : { ...body }
+
+  if (changes.repairType !== undefined && !repairTypes.includes(changes.repairType)) {
+    return response.status(400).json({ error: 'Hình thức sửa chữa không hợp lệ' })
+  }
+  // Mọi hình thức sửa chữa đều phải kèm ngày xác nhận sửa chữa.
+  const confirmDate = changes.repairConfirmDate ?? current.repairConfirmDate
+  if (changes.repairType !== undefined && !confirmDate) {
+    return response.status(400).json({ error: 'Cần nhập ngày xác nhận sửa chữa' })
+  }
+
+  const history = Array.isArray(current.repairHistory) ? [...current.repairHistory] : []
+  // Dấu vết chuyển hình thức: máy chủ tự đóng dấu ngày và người thực hiện, không tin client.
+  if (changes.repairType !== undefined && changes.repairType !== current.repairType) {
+    history.push({
+      id: `trace-${randomUUID()}`,
+      from: current.repairType ?? null,
+      to: changes.repairType,
+      at: new Date().toISOString(),
+      by: request.user.displayName,
+      note: typeof body.transferNote === 'string' ? body.transferNote.trim() : '',
+    })
+  }
+  delete changes.transferNote
+  delete changes.repairHistory
+
+  const now = new Date().toISOString()
+  if (changes.status === 'Đã hoàn tất' && current.status !== 'Đã hoàn tất') changes.repairCompletedAt = now
+  if (changes.status === 'Đã nhận về khoa') {
+    changes.returnedAt = now
+    changes.repairCompletedAt = current.repairCompletedAt ?? now
+  }
+
+  state.incidents[index] = { ...current, ...changes, id: current.id, repairHistory: history }
+  const incident = state.incidents[index]
+
+  if (device) {
+    // Thiết bị chỉ trở lại "Đang hoạt động" khi khoa đã nhận về; "Thay mới" thì ngừng sử dụng.
+    if (incident.status === 'Đã nhận về khoa') {
+      device.status = incident.repairType === 'Thay mới' ? 'Ngừng sử dụng' : 'Đang hoạt động'
+      device.lastUpdated = now
+    } else if (incident.status === 'Đã hoàn tất' && incident.repairType === 'Tự sửa') {
+      // Tự sửa tại chỗ: thiết bị không rời khoa nên hoàn thành là dùng lại được ngay.
+      device.status = 'Đang hoạt động'
+      device.lastUpdated = now
+    }
+  }
+
   await persist()
   return response.json(incident)
 })

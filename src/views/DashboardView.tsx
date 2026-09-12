@@ -27,9 +27,9 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { AlertItem, Device, Incident, MaintenanceEvent, UserAccount, ViewId } from '../types'
-import { daysFromToday, dueLabel, formatDateTime, getDeviceById } from '../utils'
-import { DeviceVisual, PageHeading, SectionHeading, StatusBadge } from '../components/Shared'
+import type { AlertItem, Branch, Device, Incident, MaintenanceEvent, UserAccount, ViewId } from '../types'
+import { daysFromToday, dueLabel, formatDateTime, getDeviceById, isIncidentClosed } from '../utils'
+import { BranchChip, DeviceVisual, PageHeading, SectionHeading, StatusBadge } from '../components/Shared'
 
 const statusColors = {
   'Đang hoạt động': '#1c8c72',
@@ -62,9 +62,9 @@ export default function DashboardView({
   onNavigate,
   onAddDevice,
   onNewIncident,
-  onOpenDevice,
   onOpenAlert,
   scopeName,
+  branches,
 }: {
   devices: Device[]
   incidents: Incident[]
@@ -74,9 +74,9 @@ export default function DashboardView({
   onNavigate: (view: ViewId) => void
   onAddDevice?: () => void
   onNewIncident: () => void
-  onOpenDevice: (device: Device) => void
   onOpenAlert: (alert: AlertItem) => void
   scopeName: string
+  branches?: Branch[]
 }) {
   const totalDevices = devices.length
   const activeDevices = devices.filter((device) => device.status === 'Đang hoạt động').length
@@ -88,15 +88,23 @@ export default function DashboardView({
     value: devices.filter((device) => device.status === status).length,
     color: statusColors[status],
   }))
-  const departmentData = Array.from(devices.reduce((groups, device) => {
-    const name = device.department.replace(/^Khoa\s+/, '').replace('Chẩn đoán hình ảnh', 'CĐHA').replace('Hồi sức tích cực', 'HSTC').replace('Gây mê hồi sức', 'GMHS').replace('Thận nhân tạo', 'Thận NT')
-    const current = groups.get(name) ?? { name, total: 0, active: 0 }
-    current.total += 1
-    if (device.status === 'Đang hoạt động') current.active += 1
-    groups.set(name, current)
-    return groups
-  }, new Map<string, { name: string; total: number; active: number }>()).values()).slice(0, 6)
-  const openIncidents = incidents.filter((incident) => incident.status !== 'Đã hoàn tất')
+  // Khi admin xem "Tất cả chi nhánh", ưu tiên breakdown theo chi nhánh thay vì theo khoa
+  const isAllBranches = Boolean(branches)
+  const departmentData = isAllBranches
+    ? branches!.map((branch) => ({
+        name: branch.shortName,
+        total: devices.filter((d) => d.branchId === branch.id).length,
+        active: devices.filter((d) => d.branchId === branch.id && d.status === 'Đang hoạt động').length,
+      }))
+    : Array.from(devices.reduce((groups, device) => {
+        const name = device.department.replace(/^Khoa\s+/, '').replace('Chẩn đoán hình ảnh', 'CĐHA').replace('Hồi sức tích cực', 'HSTC').replace('Gây mê hồi sức', 'GMHS').replace('Thận nhân tạo', 'Thận NT')
+        const current = groups.get(name) ?? { name, total: 0, active: 0 }
+        current.total += 1
+        if (device.status === 'Đang hoạt động') current.active += 1
+        groups.set(name, current)
+        return groups
+      }, new Map<string, { name: string; total: number; active: number }>()).values()).slice(0, 6)
+  const openIncidents = incidents.filter((incident) => !isIncidentClosed(incident.status))
   const urgentIncidents = openIncidents.filter((incident) => incident.priority === 'Khẩn cấp')
   const attentionIncidents = openIncidents.filter((incident) => incident.priority === 'Khẩn cấp' || incident.status === 'Mới tiếp nhận')
   const pendingEvents = events.filter((event) => event.status !== 'Hoàn tất')
@@ -109,6 +117,7 @@ export default function DashboardView({
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 4)
   const topAlerts = alerts.slice(0, 5)
+  const urgentAlertCount = alerts.filter((alert) => alert.urgent).length
   const completeProfiles = devices.filter((device) => device.documents.length > 0).length
   const documentationRate = totalDevices ? Math.round((completeProfiles / totalDevices) * 1000) / 10 : 0
   const today = new Date()
@@ -195,7 +204,11 @@ export default function DashboardView({
           <div className="alert-board-icon">{topAlerts.length ? <CircleAlert size={20} /> : <CheckCircle2 size={20} />}</div>
           <div>
             <strong>{topAlerts.length ? `${alerts.length} cảnh báo cần xử lý` : 'Không có cảnh báo'}</strong>
-            <span>Sự cố đang mở, lịch quá hạn, nhắc hẹn đến ngưỡng và bảo hành sắp hết</span>
+            <span>
+              {urgentAlertCount > 0
+                ? `${urgentAlertCount} mục ưu tiên khẩn — bảo trì hoặc bảo hành đã quá hạn mà chưa có xác nhận`
+                : 'Sự cố đang mở, lịch quá hạn, nhắc hẹn đến ngưỡng và bảo hành sắp hết'}
+            </span>
           </div>
           {alerts.length > 0 && (
             <button type="button" onClick={() => onNavigate(attentionIncidents.length ? 'incidents' : 'maintenance')}>
@@ -206,13 +219,13 @@ export default function DashboardView({
         {topAlerts.length > 0 && (
           <div className="alert-board-list">
             {topAlerts.map((alert) => (
-              <button className={`alert-row ${alert.severity}`} type="button" key={alert.id} onClick={() => onOpenAlert(alert)}>
+              <button className={`alert-row ${alert.severity} ${alert.urgent ? 'urgent' : ''}`} type="button" key={alert.id} onClick={() => onOpenAlert(alert)}>
                 <span>
                   {alert.kind === 'incident' || alert.kind === 'follow-up' ? <Siren size={15} />
-                    : alert.kind === 'warranty' ? <ShieldCheck size={15} />
+                    : alert.kind === 'warranty' || alert.kind === 'warranty-overdue' ? <ShieldCheck size={15} />
                       : <CalendarClock size={15} />}
                 </span>
-                <div><strong>{alert.title}</strong><small>{alert.detail}</small></div>
+                <div><strong>{alert.urgent && <i className="urgent-tag">KHẨN</i>}{alert.title}</strong><small>{alert.detail}</small></div>
                 <ArrowRight size={15} className="row-arrow" />
               </button>
             ))}
@@ -226,7 +239,7 @@ export default function DashboardView({
       <div className="dashboard-columns">
         <section className="panel chart-panel wide-panel">
           <SectionHeading
-            title="Thiết bị theo khoa"
+            title={isAllBranches ? 'Thiết bị theo chi nhánh' : 'Thiết bị theo khoa'}
             detail="Số lượng và tỷ lệ đang hoạt động"
             action={
               <button className="text-button" type="button" onClick={() => onNavigate('reports')}>
@@ -303,6 +316,7 @@ export default function DashboardView({
                   <span className="recent-main">
                     <strong>{incident.title}</strong>
                     <small>{device.name} · {device.department}</small>
+                    {branches && <BranchChip branchId={device.branchId} branches={branches} />}
                   </span>
                   <span className="recent-time">{formatDateTime(incident.createdAt)}</span>
                   <StatusBadge label={incident.status} />
@@ -332,6 +346,7 @@ export default function DashboardView({
                     <strong>{event.type}</strong>
                     <span>{device?.name}</span>
                     <small><Clock3 size={13} /> {event.time} · {dueLabel(event.date)}</small>
+                    {branches && device && <BranchChip branchId={device.branchId} branches={branches} />}
                   </div>
                 </div>
               )
@@ -365,7 +380,7 @@ export default function DashboardView({
           <SectionHeading title="Thao tác nhanh" detail="Các nghiệp vụ thường dùng" />
           <div className="quick-action-grid">
             <button type="button" onClick={onNewIncident}><span className="quick-icon coral"><Siren size={19} /></span><strong>Báo sự cố</strong><small>Tạo yêu cầu mới</small></button>
-             <button type="button" onClick={() => devices[0] && onOpenDevice(devices[0])} disabled={!devices[0]}><span className="quick-icon dark"><QrCode size={19} /></span><strong>Mã QR</strong><small>In tem thiết bị</small></button>
+            <button type="button" onClick={() => onNavigate('devices')}><span className="quick-icon dark"><QrCode size={19} /></span><strong>Mã QR</strong><small>Chọn thiết bị để in tem</small></button>
             <button type="button" onClick={() => onNavigate('maintenance')}><span className="quick-icon amber"><Wrench size={19} /></span><strong>Lập lịch</strong><small>Bảo trì, hiệu chuẩn</small></button>
             <button type="button" onClick={() => onNavigate('reports')}><span className="quick-icon green"><FileChartColumn size={19} /></span><strong>Báo cáo</strong><small>Tùy chọn dữ liệu</small></button>
           </div>

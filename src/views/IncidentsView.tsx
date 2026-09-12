@@ -9,6 +9,7 @@ import {
   Columns3,
   List,
   MessageSquareText,
+  PackageCheck,
   Plus,
   Search,
   TimerReset,
@@ -16,9 +17,10 @@ import {
   Wrench,
   X,
 } from 'lucide-react'
-import type { Device, Incident, IncidentStatus, UserAccount } from '../types'
-import { dueLabel, formatDateTime, getDeviceById, normalizeText } from '../utils'
-import { DeviceVisual, EmptyState, PageHeading, StatusBadge } from '../components/Shared'
+import type { Branch, Device, Incident, IncidentStatus, UserAccount } from '../types'
+import { repairTypes } from '../types'
+import { dueLabel, formatDate, formatDateTime, getDeviceById, isIncidentClosed, normalizeText } from '../utils'
+import { BranchChip, DeviceVisual, EmptyState, PageHeading, StatusBadge } from '../components/Shared'
 
 const incidentStatuses: Array<'Tất cả' | IncidentStatus> = [
   'Tất cả',
@@ -26,9 +28,16 @@ const incidentStatuses: Array<'Tất cả' | IncidentStatus> = [
   'Đang xử lý',
   'Chờ linh kiện',
   'Đã hoàn tất',
+  'Đã nhận về khoa',
 ]
 
-const boardStatuses: IncidentStatus[] = ['Mới tiếp nhận', 'Đang xử lý', 'Chờ linh kiện', 'Đã hoàn tất']
+const boardStatuses: IncidentStatus[] = [
+  'Mới tiếp nhận',
+  'Đang xử lý',
+  'Chờ linh kiện',
+  'Đã hoàn tất',
+  'Đã nhận về khoa',
+]
 
 export default function IncidentsView({
   devices,
@@ -38,6 +47,7 @@ export default function IncidentsView({
   onOpenIncident,
   onUpdateStatus,
   scopeName,
+  branches,
 }: {
   devices: Device[]
   incidents: Incident[]
@@ -46,10 +56,13 @@ export default function IncidentsView({
   onOpenIncident: (incident: Incident) => void
   onUpdateStatus: (incident: Incident, status: IncidentStatus) => void
   scopeName: string
+  branches?: Branch[]
 }) {
   const canManage = currentUser.role !== 'department'
   const [status, setStatus] = useState<(typeof incidentStatuses)[number]>('Tất cả')
   const [priority, setPriority] = useState('Tất cả mức độ')
+  const [repairFilter, setRepairFilter] = useState('Tất cả hình thức')
+  const [branchFilter, setBranchFilter] = useState('Tất cả chi nhánh')
   const [search, setSearch] = useState('')
   const [mode, setMode] = useState<'list' | 'board'>('list')
 
@@ -58,21 +71,30 @@ export default function IncidentsView({
     const haystack = normalizeText(`${incident.code} ${incident.title} ${device?.name ?? ''} ${device?.code ?? ''} ${incident.reporterDepartment}`)
     return (status === 'Tất cả' || incident.status === status)
       && (priority === 'Tất cả mức độ' || incident.priority === priority)
+      && (repairFilter === 'Tất cả hình thức'
+        || (repairFilter === 'Chưa chốt hình thức' ? !incident.repairType : incident.repairType === repairFilter))
+      && (branchFilter === 'Tất cả chi nhánh' || device?.branchId === branchFilter)
       && (!search || haystack.includes(normalizeText(search)))
-  }), [devices, incidents, priority, search, status])
+  }), [branchFilter, devices, incidents, priority, repairFilter, search, status])
 
-  const openCount = incidents.filter((incident) => incident.status !== 'Đã hoàn tất').length
-  const urgentCount = incidents.filter((incident) => incident.priority === 'Khẩn cấp' && incident.status !== 'Đã hoàn tất').length
+  const openIncidents = incidents.filter((incident) => !isIncidentClosed(incident.status))
+  const openCount = openIncidents.length
+  const urgentCount = openIncidents.filter((incident) => incident.priority === 'Khẩn cấp').length
   const waitingPartsCount = incidents.filter((incident) => incident.status === 'Chờ linh kiện').length
-  const completedCount = incidents.filter((incident) => incident.status === 'Đã hoàn tất').length
-  const openDepartmentCount = new Set(incidents.filter((incident) => incident.status !== 'Đã hoàn tất').map((incident) => incident.reporterDepartment)).size
-  const scheduledCount = incidents.filter((incident) => incident.status !== 'Đã hoàn tất' && incident.nextActionDate).length
+  const completedCount = incidents.filter((incident) => isIncidentClosed(incident.status)).length
+  // Đã sửa xong nhưng thiết bị chưa quay lại khoa — mục cần đôn đốc rõ nhất.
+  const awaitingReturnCount = incidents.filter((incident) => incident.status === 'Đã hoàn tất').length
+  const openDepartmentCount = new Set(openIncidents.map((incident) => incident.reporterDepartment)).size
+  const scheduledCount = openIncidents.filter((incident) => incident.nextActionDate).length
   const scheduledRate = openCount ? Math.round((scheduledCount / openCount) * 100) : 0
   const hasActiveFilters = Boolean(search) || status !== 'Tất cả' || priority !== 'Tất cả mức độ'
+    || repairFilter !== 'Tất cả hình thức' || branchFilter !== 'Tất cả chi nhánh'
   const resetFilters = () => {
     setSearch('')
     setStatus('Tất cả')
     setPriority('Tất cả mức độ')
+    setRepairFilter('Tất cả hình thức')
+    setBranchFilter('Tất cả chi nhánh')
   }
 
   return (
@@ -90,7 +112,8 @@ export default function IncidentsView({
         <article><span className="summary-icon coral"><CircleAlert size={19} /></span><div><strong>{urgentCount}</strong><span>Khẩn cấp</span></div><small>Cần phản hồi ngay</small></article>
         <article><span className="summary-icon blue"><TimerReset size={19} /></span><div><strong>{openCount}</strong><span>Đang mở</span></div><small>Trên {openDepartmentCount} khoa/phòng</small></article>
         <article><span className="summary-icon amber"><Wrench size={19} /></span><div><strong>{waitingPartsCount}</strong><span>Chờ linh kiện</span></div><small>{waitingPartsCount ? 'Cần theo dõi nhà cung cấp' : 'Không có yêu cầu chờ'}</small></article>
-        <article><span className="summary-icon green"><CheckCircle2 size={19} /></span><div><strong>{completedCount}</strong><span>Đã hoàn tất</span></div><small>Trong dữ liệu đang xem</small></article>
+        <article><span className="summary-icon violet"><PackageCheck size={19} /></span><div><strong>{awaitingReturnCount}</strong><span>Chờ nhận về khoa</span></div><small>{awaitingReturnCount ? 'Đã sửa xong, chưa bàn giao lại' : 'Không còn tồn đọng'}</small></article>
+        <article><span className="summary-icon green"><CheckCircle2 size={19} /></span><div><strong>{completedCount}</strong><span>Đã khép lại</span></div><small>Trong dữ liệu đang xem</small></article>
         <article className="response-metric"><span>Có lịch xử lý tiếp</span><strong>{scheduledCount}/{openCount}</strong><small>Yêu cầu mở đã có ngày hẹn</small><i><b style={{ width: `${scheduledRate}%` }} /></i></article>
       </section>
 
@@ -125,6 +148,23 @@ export default function IncidentsView({
             </select>
             <ChevronDown size={15} />
           </div>
+          <div className="select-wrap">
+            <select value={repairFilter} onChange={(event) => setRepairFilter(event.target.value)} aria-label="Lọc hình thức sửa chữa">
+              <option>Tất cả hình thức</option>
+              <option>Chưa chốt hình thức</option>
+              {repairTypes.map((type) => <option key={type}>{type}</option>)}
+            </select>
+            <ChevronDown size={15} />
+          </div>
+          {branches && (
+            <div className="select-wrap">
+              <select value={branchFilter} onChange={(event) => setBranchFilter(event.target.value)} aria-label="Lọc theo chi nhánh">
+                <option>Tất cả chi nhánh</option>
+                {branches.map((branch) => <option key={branch.id} value={branch.id}>{branch.shortName}</option>)}
+              </select>
+              <ChevronDown size={15} />
+            </div>
+          )}
           {hasActiveFilters && <button className="button ghost compact-button" type="button" onClick={resetFilters}><X size={16} /> Xóa lọc</button>}
         </div>
 
@@ -145,10 +185,16 @@ export default function IncidentsView({
                   <div className="incident-location">
                     <strong>{incident.reporterDepartment}</strong>
                     <span><UserRound size={13} /> {incident.reporter}</span>
+                    {branches && device && <BranchChip branchId={device.branchId} branches={branches} />}
                   </div>
                   <div className="incident-created">
                     <strong>{formatDateTime(incident.createdAt)}</strong>
                     <span>{incident.hasPhoto && <><Camera size={13} /> Có ảnh</>} {incident.notes.length > 0 && <><MessageSquareText size={13} /> {incident.notes.length}</>}</span>
+                  </div>
+                  <div className="incident-repair">
+                    {incident.repairType
+                      ? <><StatusBadge label={incident.repairType} dot={false} /><span><CalendarClock size={13} /> XN {formatDate(incident.repairConfirmDate)}</span></>
+                      : <span className="repair-unset">Chưa chốt hình thức</span>}
                   </div>
                   <div className="incident-assignee"><strong>{incident.assignee}</strong>{incident.nextActionDate && <span><CalendarClock size={13} /> {dueLabel(incident.nextActionDate)}</span>}</div>
                   <div className="incident-status-action">
@@ -185,6 +231,8 @@ export default function IncidentsView({
                           <div><span>{incident.code}</span><StatusBadge label={incident.priority} dot={false} /></div>
                           <strong>{incident.title}</strong>
                           <small>{device?.name}</small>
+                          {incident.repairType && <StatusBadge label={incident.repairType} dot={false} />}
+                          {branches && device && <BranchChip branchId={device.branchId} branches={branches} />}
                           <footer><span><UserRound size={13} />{incident.assignee}</span><span>{formatDateTime(incident.createdAt)}</span></footer>
                         </button>
                       )

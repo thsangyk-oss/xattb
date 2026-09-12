@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import {
   Bell,
   BellOff,
@@ -14,6 +14,8 @@ import {
   LogOut,
   Menu,
   PackageSearch,
+  PanelLeftClose,
+  PanelLeftOpen,
   Plus,
   Search,
   ShieldCheck,
@@ -22,9 +24,14 @@ import {
   UserRoundCog,
   X,
 } from 'lucide-react'
-import type { AlertItem, Branch, BranchId, UserAccount, ViewId } from '../types'
+import type { AlertItem, Branch, BranchId, Device, UserAccount, ViewId } from '../types'
 import { roleLabel } from '../types'
-import { initials } from '../utils'
+import { initials, normalizeText } from '../utils'
+import { DeviceVisual } from './Shared'
+
+const NAV_COLLAPSED_KEY = 'xuyen-a-nav-collapsed'
+const COMPACT_QUERY = '(max-width: 1199px)'
+const MOBILE_QUERY = '(max-width: 767px)'
 
 type NavItem = { id: ViewId; label: string; short: string; icon: typeof LayoutDashboard; roles?: UserAccount['role'][] }
 
@@ -57,6 +64,8 @@ export default function AppShell({
   search,
   onSearch,
   onNewIncident,
+  onOpenDevice,
+  devices = [],
   children,
   sidebarOpen,
   setSidebarOpen,
@@ -78,6 +87,8 @@ export default function AppShell({
   search: string
   onSearch: (value: string) => void
   onNewIncident: () => void
+  onOpenDevice?: (device: Device) => void
+  devices?: Device[]
   children: ReactNode
   sidebarOpen: boolean
   setSidebarOpen: (open: boolean) => void
@@ -93,19 +104,101 @@ export default function AppShell({
   onChangePassword: () => void
 }) {
   const [branchMenuOpen, setBranchMenuOpen] = useState(false)
+  // Thu gon menu trai: nguoi dung tu bam, lua chon duoc nho lai.
+  // Lan dau mo tren man hinh hep thi mac dinh thu gon san.
+  const [collapsed, setCollapsed] = useState(() => {
+    const stored = window.localStorage.getItem(NAV_COLLAPSED_KEY)
+    return stored === null ? window.matchMedia(COMPACT_QUERY).matches : stored === '1'
+  })
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches)
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
+  const [searchIndex, setSearchIndex] = useState(0)
+  const searchBoxRef = useRef<HTMLFormElement>(null)
 
   const visibleNav = navItems.filter((item) => !item.roles || item.roles.includes(currentUser.role))
   const selectedBranch = branches.find((branch) => branch.id === selectedBranchId)
   const branchLabel = selectedBranch?.name ?? 'Tất cả chi nhánh'
   const canSwitchBranch = currentUser.role === 'admin'
   const urgentCount = alerts.filter((alert) => alert.severity === 'danger').length
+  const urgentOverdueCount = alerts.filter((alert) => alert.urgent).length
   const todayLabel = new Intl.DateTimeFormat('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit' }).format(new Date())
+
+  const suggestResults = useMemo(() => {
+    const query = normalizeText(search.trim())
+    if (!query) return []
+    return devices
+      .filter((device) => normalizeText(
+        `${device.name} ${device.code} ${device.model} ${device.serial} ${device.department}`,
+      ).includes(query))
+      .slice(0, 6)
+  }, [devices, search])
+
+  const showSuggest = searchFocused && search.trim().length > 0
 
   const handleSearch = (event: FormEvent) => {
     event.preventDefault()
-    if (search.trim()) onNavigate('devices')
+    if (search.trim()) {
+      if (suggestResults[searchIndex] && onOpenDevice) {
+        onOpenDevice(suggestResults[searchIndex])
+      } else {
+        onNavigate('devices')
+      }
+      setSearchFocused(false)
+    }
   }
+
+  const changeSearch = (value: string) => {
+    onSearch(value)
+    setSearchIndex(0)
+  }
+
+  // Click outside để đóng gợi ý
+  useEffect(() => {
+    if (!showSuggest) return undefined
+    const onDocMouseDown = (event: MouseEvent) => {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node)) {
+        setSearchFocused(false)
+      }
+    }
+    document.addEventListener('mousedown', onDocMouseDown)
+    return () => document.removeEventListener('mousedown', onDocMouseDown)
+  }, [showSuggest])
+
+  const handleSearchKeyDown = (event: React.KeyboardEvent) => {
+    if (!showSuggest) return
+    if (event.key === 'ArrowDown') {
+      event.preventDefault()
+      setSearchIndex((current) => Math.min(current + 1, suggestResults.length - 1))
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      setSearchIndex((current) => Math.max(current - 1, 0))
+    } else if (event.key === 'Escape') {
+      setSearchFocused(false)
+    }
+  }
+
+  const pickSuggestion = (device: Device) => {
+    if (onOpenDevice) onOpenDevice(device)
+    else onNavigate('devices')
+    setSearchFocused(false)
+  }
+
+  useEffect(() => {
+    const mobile = window.matchMedia(MOBILE_QUERY)
+    const onChange = (event: MediaQueryListEvent) => setIsMobile(event.matches)
+    mobile.addEventListener('change', onChange)
+    return () => mobile.removeEventListener('change', onChange)
+  }, [])
+
+  const toggleCollapsed = () => {
+    const next = !collapsed
+    setCollapsed(next)
+    window.localStorage.setItem(NAV_COLLAPSED_KEY, next ? '1' : '0')
+  }
+
+  // Tren dien thoai luon dung ngan keo day du, khong bao gio vao che do rail.
+  const rail = collapsed && !isMobile
 
   const navigate = (view: ViewId) => {
     onNavigate(view)
@@ -119,7 +212,7 @@ export default function AppShell({
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${rail ? 'rail' : ''}`}>
       {sidebarOpen && <button className="sidebar-scrim" onClick={() => setSidebarOpen(false)} aria-label="Đóng menu" />}
 
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
@@ -140,6 +233,7 @@ export default function AppShell({
             aria-haspopup="listbox"
             aria-expanded={branchMenuOpen}
             disabled={!canSwitchBranch}
+            title={rail ? (currentUser.role === 'department' ? currentUser.department : branchLabel) : undefined}
           >
             <span className="facility-icon"><Building2 size={17} /></span>
             <div>
@@ -184,7 +278,13 @@ export default function AppShell({
         <nav className="primary-nav" aria-label="Điều hướng chính">
           <span className="nav-label">Quản lý</span>
           {visibleNav.map(({ id, label, icon: Icon }) => (
-            <button key={id} className={currentView === id ? 'active' : ''} onClick={() => navigate(id)} type="button">
+            <button
+              key={id}
+              className={currentView === id ? 'active' : ''}
+              onClick={() => navigate(id)}
+              type="button"
+              title={rail ? label : undefined}
+            >
               <Icon size={18} />
               <span>{label}</span>
               {id === 'incidents' && urgentCount > 0 && <b className="nav-count">{urgentCount}</b>}
@@ -200,10 +300,21 @@ export default function AppShell({
               <small>{roleLabel(currentUser.role)}</small>
             </div>
           </div>
-          <button className="sidebar-utility" type="button" onClick={onChangePassword}>
+          <button
+            className="sidebar-utility sidebar-collapse"
+            type="button"
+            onClick={toggleCollapsed}
+            title={rail ? 'Bung menu' : 'Thu gọn menu'}
+            aria-label={rail ? 'Bung menu' : 'Thu gọn menu'}
+            aria-expanded={!rail}
+          >
+            {rail ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+            <span>Thu gọn menu</span>
+          </button>
+          <button className="sidebar-utility" type="button" onClick={onChangePassword} title={rail ? 'Đổi mật khẩu' : undefined}>
             <KeyRound size={17} /><span>Đổi mật khẩu</span>
           </button>
-          <button className="sidebar-utility" type="button" onClick={onLogout}>
+          <button className="sidebar-utility" type="button" onClick={onLogout} title={rail ? 'Đăng xuất' : undefined}>
             <LogOut size={17} /><span>Đăng xuất</span>
           </button>
           <div className={`system-state ${offline ? 'offline' : ''}`}>
@@ -232,15 +343,57 @@ export default function AppShell({
             </span>
           </div>
 
-          <form className="global-search" onSubmit={handleSearch}>
+          <form
+            className={`global-search ${showSuggest ? 'open' : ''}`}
+            onSubmit={handleSearch}
+            ref={searchBoxRef}
+          >
             <Search size={17} />
             <input
               value={search}
-              onChange={(event) => onSearch(event.target.value)}
+              onChange={(event) => changeSearch(event.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onKeyDown={handleSearchKeyDown}
               placeholder="Tìm mã, tên, model, seri..."
               aria-label="Tìm kiếm thiết bị"
+              aria-expanded={showSuggest && suggestResults.length > 0}
+              aria-haspopup="listbox"
             />
             <kbd>Ctrl K</kbd>
+            {showSuggest && (
+              <div className="search-suggest" role="listbox">
+                {suggestResults.length > 0 ? (
+                  <>
+                    <div className="search-suggest-head">Thiết bị ({suggestResults.length})</div>
+                    {suggestResults.map((device, index) => (
+                      <button
+                        key={device.id}
+                        type="button"
+                        role="option"
+                        aria-selected={index === searchIndex}
+                        className={`search-suggest-item ${index === searchIndex ? 'active' : ''}`}
+                        onMouseEnter={() => setSearchIndex(index)}
+                        onClick={() => pickSuggestion(device)}
+                      >
+                        <DeviceVisual category={device.category} size="sm" />
+                        <div>
+                          <strong>{device.name}</strong>
+                          <small>{device.code} · {device.department}</small>
+                        </div>
+                        <kbd>↵</kbd>
+                      </button>
+                    ))}
+                    <div className="search-suggest-head" style={{ marginTop: 4 }}>
+                      Nhấn Enter để xem trang thiết bị đầy đủ
+                    </div>
+                  </>
+                ) : (
+                  <div className="search-suggest-empty">
+                    Không tìm thấy thiết bị nào khớp với “{search.trim()}”
+                  </div>
+                )}
+              </div>
+            )}
           </form>
 
           <button className="mobile-search-button" type="button" onClick={() => navigate('devices')} aria-label="Tìm thiết bị">
@@ -268,20 +421,23 @@ export default function AppShell({
                   <div className="notification-head">
                     <div>
                       <strong>Cảnh báo cần xử lý</strong>
-                      <small>{alerts.length} mục · {scopeName}</small>
+                      <small>
+                        {alerts.length} mục · {scopeName}
+                        {urgentOverdueCount > 0 && <> · <b className="notification-urgent-count">{urgentOverdueCount} khẩn</b></>}
+                      </small>
                     </div>
                     <button type="button" onClick={() => setNotificationsOpen(false)} aria-label="Đóng"><X size={16} /></button>
                   </div>
                   <div className="notification-list">
                     {alerts.length ? alerts.slice(0, 12).map((alert) => (
-                      <button className={`notification-item ${alert.severity}`} type="button" key={alert.id} onClick={() => onOpenAlert(alert)}>
+                      <button className={`notification-item ${alert.severity} ${alert.urgent ? 'urgent' : ''}`} type="button" key={alert.id} onClick={() => onOpenAlert(alert)}>
                         <span>
                           {alert.kind === 'incident' || alert.kind === 'follow-up' ? <Siren size={16} />
-                            : alert.kind === 'warranty' ? <ShieldCheck size={16} />
+                            : alert.kind === 'warranty' || alert.kind === 'warranty-overdue' ? <ShieldCheck size={16} />
                               : <CalendarClock size={16} />}
                         </span>
                         <div>
-                          <strong>{alert.title}</strong>
+                          <strong>{alert.urgent && <i className="urgent-tag">KHẨN</i>}{alert.title}</strong>
                           <p>{alert.detail}</p>
                           <small>{alert.meta}</small>
                         </div>

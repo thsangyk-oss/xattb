@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import {
+  ArrowLeftRight,
   BellRing,
   CalendarClock,
   Camera,
@@ -15,6 +16,7 @@ import {
   Info,
   KeyRound,
   Link2,
+  Lock,
   MapPin,
   MessageSquarePlus,
   PackageCheck,
@@ -34,6 +36,7 @@ import {
 } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
 import type {
+  AlertItem,
   Branch,
   BranchId,
   Department,
@@ -43,9 +46,10 @@ import type {
   IncidentStatus,
   MaintenanceEvent,
   Priority,
+  RepairType,
   UserAccount,
 } from '../types'
-import { documentTypes } from '../types'
+import { documentTypes, repairTypeHints, repairTypes } from '../types'
 import { defaultUserPassword, departmentCatalog, hospitalName, slugify } from '../data'
 import { dueLabel, formatCurrency, formatDate, formatDateTime, getDeviceById, isoOffset, todayIso } from '../utils'
 import { DetailRow, DeviceVisual, EmptyState, Modal, StatusBadge } from './Shared'
@@ -72,6 +76,7 @@ export function DeviceDetailDialog({
   incidents,
   events,
   canManage,
+  canSeePrice,
   onClose,
   onShowQr,
   onEdit,
@@ -86,6 +91,7 @@ export function DeviceDetailDialog({
   incidents: Incident[]
   events: MaintenanceEvent[]
   canManage: boolean
+  canSeePrice: boolean
   onClose: () => void
   onShowQr: () => void
   onEdit: () => void
@@ -184,10 +190,12 @@ export function DeviceDetailDialog({
           </section>
 
           <section className="detail-section">
-            <h4><FileCheck2 size={16} /> Mua sắm & tài chính</h4>
+            <h4><FileCheck2 size={16} /> Mua sắm{canSeePrice ? ' & tài chính' : ''}</h4>
             <div className="detail-grid">
               <DetailRow label="Công ty cung cấp" value={device.supplier} />
-              <DetailRow label="Nguyên giá" value={formatCurrency(device.price)} />
+              {canSeePrice
+                ? <DetailRow label="Nguyên giá" value={formatCurrency(device.price)} />
+                : <DetailRow label="Nguyên giá" value={<span className="value-restricted"><Lock size={12} /> Chỉ admin tổng xem được</span>} />}
             </div>
           </section>
 
@@ -308,6 +316,7 @@ export function DeviceFormDialog({
   branches,
   departments,
   defaultBranchId,
+  canSeePrice,
   onClose,
   onSave,
 }: {
@@ -315,6 +324,7 @@ export function DeviceFormDialog({
   branches: Branch[]
   departments: string[]
   defaultBranchId: BranchId
+  canSeePrice: boolean
   onClose: () => void
   onSave: (device: Device) => void
 }) {
@@ -349,7 +359,8 @@ export function DeviceFormDialog({
       department: text('department'),
       room: text('room'),
       supplier: text('supplier'),
-      price: Number(form.get('price')),
+      // Không gửi trường giá nếu tài khoản không được xem — tránh ghi đè giá đang lưu bằng 0.
+      ...(canSeePrice ? { price: Number(form.get('price')) || 0 } : {}),
       status: (text('status') || 'Đang hoạt động') as Device['status'],
       shared: form.get('shared') === 'on',
       documents: device?.documents ?? [],
@@ -426,8 +437,13 @@ export function DeviceFormDialog({
             </label>
             <label>Bảo trì tiếp theo <input name="nextMaintenance" type="date" required defaultValue={device?.nextMaintenance} /></label>
             <label className="span-2">Công ty cung cấp <input name="supplier" required defaultValue={device?.supplier} placeholder="Tên nhà cung cấp" /></label>
-            <label>Nguyên giá (VNĐ) <input name="price" type="number" min="0" step="1000" required defaultValue={device?.price ?? 0} /></label>
+            {canSeePrice && (
+              <label>Nguyên giá (VNĐ) <input name="price" type="number" min="0" step="1000" required defaultValue={device?.price ?? 0} /></label>
+            )}
           </div>
+          {!canSeePrice && (
+            <div className="form-info"><Lock size={17} /><span>Nguyên giá thiết bị do admin tổng quản lý và không hiển thị ở tài khoản này. Các thông tin còn lại bạn vẫn sửa được bình thường.</span></div>
+          )}
         </section>
 
         <footer className="form-footer">
@@ -611,6 +627,58 @@ export function PasswordDialog({
   )
 }
 
+/* --------------------------------------------------- nhắc việc quá hạn */
+
+/**
+ * Nhắc mỗi ngày khi moderator / tài khoản khoa đăng nhập, chừng nào còn lịch
+ * bảo trì hoặc bảo hành quá hạn chưa được xác nhận. Admin tổng không thấy hộp
+ * thoại này — quản lý toàn hệ thống nên chỉ nhận cảnh báo trong chuông thông báo.
+ */
+export function OverdueReminderDialog({
+  alerts,
+  userName,
+  onOpenAlert,
+  onDismiss,
+}: {
+  alerts: AlertItem[]
+  userName: string
+  onOpenAlert: (alert: AlertItem) => void
+  onDismiss: () => void
+}) {
+  return (
+    <Modal
+      title="Nhắc việc khẩn hôm nay"
+      eyebrow={`${userName} · ${formatDate(todayIso())}`}
+      width="small"
+      onClose={onDismiss}
+      footer={<button className="button primary" type="button" onClick={onDismiss}>Đã hiểu, nhắc lại vào ngày mai</button>}
+    >
+      <div className="overdue-reminder">
+        <div className="overdue-reminder-head">
+          <span><Siren size={22} /></span>
+          <div>
+            <strong>{alerts.length} việc quá hạn chưa có xác nhận</strong>
+            <p>Bảo trì và bảo hành đã quá hạn được xếp mức ưu tiên khẩn. Hộp thoại này sẽ hiện lại mỗi lần đăng nhập trong ngày mới cho tới khi các mục dưới đây được xác nhận hoàn tất.</p>
+          </div>
+        </div>
+        <div className="overdue-reminder-list">
+          {alerts.slice(0, 8).map((alert) => (
+            <button type="button" key={alert.id} onClick={() => onOpenAlert(alert)}>
+              <span className="overdue-flag">KHẨN</span>
+              <div>
+                <strong>{alert.title}</strong>
+                <small>{alert.detail}</small>
+                <small className="overdue-meta">{alert.meta}</small>
+              </div>
+            </button>
+          ))}
+        </div>
+        {alerts.length > 8 && <p className="overdue-more">+{alerts.length - 8} mục khẩn khác trong trung tâm cảnh báo.</p>}
+      </div>
+    </Modal>
+  )
+}
+
 /* ---------------------------------------------------------------------- QR */
 
 export function QrDialog({ device, onClose, onToast }: { device: Device; onClose: () => void; onToast: (message: string) => void }) {
@@ -756,6 +824,9 @@ export function IncidentDetailDialog({
   onUpdateStatus,
   onAssign,
   onAddNote,
+  onSetRepairType,
+  onCompleteRepair,
+  onReceiveBack,
 }: {
   incident: Incident
   devices: Device[]
@@ -764,16 +835,34 @@ export function IncidentDetailDialog({
   onUpdateStatus: (status: IncidentStatus) => void
   onAssign: (assignee: string) => void
   onAddNote: (content: string, nextDate: string) => void
+  onSetRepairType: (type: RepairType, confirmDate: string, transferNote: string) => void
+  onCompleteRepair: () => void
+  onReceiveBack: () => void
 }) {
   const device = getDeviceById(devices, incident.deviceId)
   const [note, setNote] = useState('')
   const [nextDate, setNextDate] = useState(incident.nextActionDate ?? isoOffset(1))
   const [assignee, setAssignee] = useState(incident.assignee)
+  const [draftType, setDraftType] = useState<RepairType | null>(incident.repairType ?? null)
+  const [confirmDate, setConfirmDate] = useState(incident.repairConfirmDate ?? todayIso())
+  const [transferNote, setTransferNote] = useState('')
+
+  const history = incident.repairHistory ?? []
+  const isSwitching = Boolean(incident.repairType) && draftType !== incident.repairType
+  const completed = Boolean(incident.repairCompletedAt) || incident.status === 'Đã hoàn tất' || incident.status === 'Đã nhận về khoa'
+  const returned = incident.status === 'Đã nhận về khoa'
+  // Ngày xác nhận sửa chữa là bắt buộc trước khi chốt một hình thức.
+  const canSubmitType = Boolean(draftType) && Boolean(confirmDate)
+    && (draftType !== incident.repairType || confirmDate !== incident.repairConfirmDate)
 
   return (
     <Modal title={incident.title} eyebrow={`${incident.code} · ${formatDateTime(incident.createdAt)}`} width="drawer" onClose={onClose}>
       <div className="incident-detail-head">
-        <div><StatusBadge label={incident.priority} dot={false} /><StatusBadge label={incident.status} /></div>
+        <div>
+          <StatusBadge label={incident.priority} dot={false} />
+          <StatusBadge label={incident.status} />
+          {incident.repairType && <StatusBadge label={incident.repairType} dot={false} />}
+        </div>
         <p>{incident.description}</p>
       </div>
 
@@ -817,6 +906,131 @@ export function IncidentDetailDialog({
         </section>
       )}
 
+      <section className="detail-section repair-section">
+        <h4><Wrench size={16} /> Hình thức sửa chữa</h4>
+
+        {canManage ? (
+          <>
+            <div className="repair-type-picker">
+              {repairTypes.map((type) => (
+                <button
+                  type="button"
+                  key={type}
+                  className={`repair-type-option ${draftType === type ? 'active' : ''} ${incident.repairType === type ? 'current' : ''}`}
+                  onClick={() => setDraftType(type)}
+                  disabled={returned}
+                  aria-pressed={draftType === type}
+                >
+                  <strong>{type}</strong>
+                  <small>{repairTypeHints[type]}</small>
+                  {incident.repairType === type && <i className="repair-current-flag">Đang áp dụng</i>}
+                </button>
+              ))}
+            </div>
+
+            {!returned && (
+              <div className="repair-confirm-row">
+                <label>
+                  <CalendarClock size={15} /> Ngày xác nhận sửa chữa
+                  <input
+                    type="date"
+                    value={confirmDate}
+                    onChange={(event) => setConfirmDate(event.target.value)}
+                    required
+                  />
+                </label>
+                {isSwitching && (
+                  <label className="repair-transfer-note">
+                    <ArrowLeftRight size={15} /> Lý do chuyển hình thức
+                    <input
+                      value={transferNote}
+                      onChange={(event) => setTransferNote(event.target.value)}
+                      placeholder={`Vì sao chuyển sang “${draftType}”?`}
+                    />
+                  </label>
+                )}
+                <button
+                  className="button primary compact-button"
+                  type="button"
+                  disabled={!canSubmitType}
+                  onClick={() => {
+                    if (draftType) onSetRepairType(draftType, confirmDate, transferNote)
+                    setTransferNote('')
+                  }}
+                >
+                  <Save size={15} /> {isSwitching ? 'Chuyển hình thức' : 'Xác nhận'}
+                </button>
+              </div>
+            )}
+
+            {!incident.repairType && (
+              <div className="form-info warning-info">
+                <Info size={17} />
+                <span>Chưa chọn hình thức sửa chữa. Hãy chọn một hình thức và nhập ngày xác nhận để bắt đầu theo dõi.</span>
+              </div>
+            )}
+
+            <div className="repair-actions">
+              <button
+                className="button primary"
+                type="button"
+                disabled={!incident.repairType || completed}
+                onClick={onCompleteRepair}
+                title={!incident.repairType ? 'Cần chọn hình thức sửa chữa trước' : undefined}
+              >
+                <CheckCircle2 size={16} /> {completed ? 'Đã hoàn thành sửa chữa' : 'Hoàn thành sửa chữa'}
+              </button>
+              <button
+                className="button secondary"
+                type="button"
+                disabled={!completed || returned}
+                onClick={onReceiveBack}
+                title={!completed ? 'Chỉ nhận về sau khi đã hoàn thành sửa chữa' : undefined}
+              >
+                <PackageCheck size={16} /> {returned ? 'Khoa đã nhận về' : 'Nhận về lại khoa'}
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="repair-readonly">
+              {incident.repairType
+                ? <><StatusBadge label={incident.repairType} dot={false} /><span>{repairTypeHints[incident.repairType]}</span></>
+                : <span>Phòng TTBYT chưa chốt hình thức sửa chữa cho yêu cầu này.</span>}
+            </div>
+            <div className="repair-actions">
+              <button className="button primary" type="button" disabled={!completed || returned} onClick={onReceiveBack}>
+                <PackageCheck size={16} /> {returned ? 'Khoa đã nhận về' : 'Xác nhận nhận về lại khoa'}
+              </button>
+            </div>
+          </>
+        )}
+
+        <div className="detail-grid repair-dates">
+          <DetailRow label="Ngày xác nhận sửa chữa" value={formatDate(incident.repairConfirmDate)} />
+          <DetailRow label="Hoàn thành sửa chữa" value={formatDateTime(incident.repairCompletedAt)} />
+          <DetailRow label="Khoa nhận về" value={formatDateTime(incident.returnedAt)} />
+        </div>
+
+        {history.length > 0 && (
+          <div className="repair-trace">
+            <strong><History size={14} /> Dấu vết chuyển hình thức</strong>
+            <ol>
+              {history.map((trace) => (
+                <li key={trace.id}>
+                  <span className="repair-trace-dot" />
+                  <div>
+                    <p>{trace.from ? <>Chuyển từ <b>{trace.from}</b> sang <b>{trace.to}</b></> : <>Chốt hình thức <b>{trace.to}</b></>}</p>
+                    {trace.note && <em>“{trace.note}”</em>}
+                    <small>{formatDateTime(trace.at)} · {trace.by}</small>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </section>
+
       <section className="detail-section resolution-section">
         <h4><Wrench size={16} /> Tiến trình xử lý</h4>
 
@@ -824,7 +1038,8 @@ export function IncidentDetailDialog({
           <div className="form-grid">
             <label>Trạng thái
               <select value={incident.status} onChange={(event) => onUpdateStatus(event.target.value as IncidentStatus)}>
-                <option>Mới tiếp nhận</option><option>Đang xử lý</option><option>Chờ linh kiện</option><option>Đã hoàn tất</option>
+                <option>Mới tiếp nhận</option><option>Đang xử lý</option><option>Chờ linh kiện</option>
+                <option>Đã hoàn tất</option><option>Đã nhận về khoa</option>
               </select>
             </label>
             <label>Đơn vị / người xử lý

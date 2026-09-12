@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import {
   Activity,
   AirVent,
+  Building2,
   ChevronRight,
   CircleGauge,
   Droplets,
@@ -16,6 +17,7 @@ import {
   Waves,
   X,
 } from 'lucide-react'
+import type { Branch, BranchId, Device } from '../types'
 import { toneForStatus } from '../utils'
 
 export function StatusBadge({ label, dot = true }: { label: string; dot?: boolean }) {
@@ -174,4 +176,21 @@ export function TextLink({ children, onClick }: { children: ReactNode; onClick?:
       <ChevronRight size={15} />
     </button>
   )
+}
+
+export function BranchChip({ branchId, branches }: { branchId: BranchId | undefined; branches: Branch[] }) {
+  if (!branchId) return null
+  const branch = branches.find((item) => item.id === branchId)
+  if (!branch) return null
+  return (
+    <span className="branch-chip" title={branch.name}>
+      <Building2 size={11} />
+      {branch.shortName}
+    </span>
+  )
+}
+
+export function DeviceRowBranchSub({ device, branches }: { device: Device; branches?: Branch[] }) {
+  if (!branches) return null
+  return <BranchChip branchId={device.branchId} branches={branches} />
 }

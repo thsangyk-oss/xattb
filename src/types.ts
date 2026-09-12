@@ -17,6 +17,29 @@ export type IncidentStatus =
   | 'Đang xử lý'
   | 'Chờ linh kiện'
   | 'Đã hoàn tất'
+  | 'Đã nhận về khoa'
+
+/** Bốn hình thức xử lý một sự cố; có thể chuyển qua lại và mỗi lần chuyển đều để lại dấu vết. */
+export type RepairType = 'Tự sửa' | 'Báo công ty' | 'Chuyển về Hệ thống' | 'Thay mới'
+
+export const repairTypes: RepairType[] = ['Tự sửa', 'Báo công ty', 'Chuyển về Hệ thống', 'Thay mới']
+
+export const repairTypeHints: Record<RepairType, string> = {
+  'Tự sửa': 'Phòng TTBYT tự khắc phục tại chỗ',
+  'Báo công ty': 'Gọi nhà cung cấp / hãng đến xử lý',
+  'Chuyển về Hệ thống': 'Chuyển thiết bị về xưởng của hệ thống',
+  'Thay mới': 'Không sửa được, đề xuất thay thiết bị mới',
+}
+
+/** Dấu vết mỗi lần đổi hình thức sửa chữa: đổi sang gì, lúc nào, ai đổi. */
+export interface RepairFootprint {
+  id: string
+  from: RepairType | null
+  to: RepairType
+  at: string
+  by: string
+  note?: string
+}
 
 export type Priority = 'Khẩn cấp' | 'Cao' | 'Trung bình' | 'Thấp'
 
@@ -91,7 +114,8 @@ export interface Device {
   department: string
   room: string
   supplier: string
-  price: number
+  /** Chỉ admin tổng nhận được trường này; máy chủ lược bỏ với mọi vai trò khác. */
+  price?: number
   status: DeviceStatus
   shared: boolean
   documents: DeviceDocument[]
@@ -126,6 +150,15 @@ export interface Incident {
     url: string
   }>
   notes: IncidentNote[]
+  /** Hình thức xử lý đang áp dụng; chưa chọn nghĩa là mới tiếp nhận, chưa quyết định hướng sửa. */
+  repairType?: RepairType
+  /** Ngày xác nhận sửa chữa — bắt buộc cho mọi hình thức. */
+  repairConfirmDate?: string
+  /** Thời điểm bấm “Hoàn thành sửa chữa”. */
+  repairCompletedAt?: string
+  /** Thời điểm khoa bấm “Nhận về lại khoa”. */
+  returnedAt?: string
+  repairHistory?: RepairFootprint[]
 }
 
 export interface MaintenanceEvent {
@@ -172,7 +205,13 @@ export interface UserAccount {
   lastLogin?: string
 }
 
-export type AlertKind = 'incident' | 'maintenance-overdue' | 'maintenance-soon' | 'warranty' | 'follow-up'
+export type AlertKind =
+  | 'incident'
+  | 'maintenance-overdue'
+  | 'maintenance-soon'
+  | 'warranty'
+  | 'warranty-overdue'
+  | 'follow-up'
 
 export interface AlertItem {
   id: string
@@ -185,6 +224,11 @@ export interface AlertItem {
   deviceId?: string
   incidentId?: string
   eventId?: string
+  /**
+   * Ưu tiên khẩn: lịch bảo trì/bảo hành đã quá hạn mà chưa có xác nhận đã bảo.
+   * Những mục này được nhắc lại mỗi ngày với moderator và tài khoản khoa.
+   */
+  urgent?: boolean
 }
 
 export const roleLabel = (role: UserRole) =>

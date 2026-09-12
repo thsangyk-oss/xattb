@@ -16,9 +16,9 @@ import {
   SlidersHorizontal,
   X,
 } from 'lucide-react'
-import type { Device, DeviceStatus, UserAccount } from '../types'
+import type { Branch, Device, DeviceStatus, UserAccount } from '../types'
 import { createCsv, daysFromToday, downloadText, dueLabel, formatDate, matchesDeviceSearch } from '../utils'
-import { DeviceVisual, EmptyState, PageHeading, StatusBadge } from '../components/Shared'
+import { BranchChip, DeviceVisual, EmptyState, PageHeading, StatusBadge } from '../components/Shared'
 
 const statuses: Array<'Tất cả' | DeviceStatus> = [
   'Tất cả',
@@ -40,6 +40,7 @@ export default function DevicesView({
   onShowQr,
   onReport,
   scopeName,
+  branches,
 }: {
   devices: Device[]
   currentUser: UserAccount
@@ -50,11 +51,13 @@ export default function DevicesView({
   onShowQr: (device: Device) => void
   onReport: (device: Device) => void
   scopeName: string
+  branches?: Branch[]
 }) {
   const isDepartmentUser = currentUser.role === 'department'
   const [status, setStatus] = useState<(typeof statuses)[number]>('Tất cả')
   const [department, setDepartment] = useState('Tất cả khoa/phòng')
   const [category, setCategory] = useState('Tất cả nhóm thiết bị')
+  const [branchFilter, setBranchFilter] = useState('Tất cả chi nhánh')
   const [ownership, setOwnership] = useState<Ownership>(isDepartmentUser ? 'mine' : 'all')
   const [selected, setSelected] = useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -78,9 +81,10 @@ export default function DevicesView({
       && (status === 'Tất cả' || device.status === status)
       && (department === 'Tất cả khoa/phòng' || device.department === department)
       && (category === 'Tất cả nhóm thiết bị' || device.category === category)
+      && (branchFilter === 'Tất cả chi nhánh' || device.branchId === branchFilter)
       && matchesOwnership(device)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [category, department, devices, globalSearch, ownership, status],
+    [branchFilter, category, department, devices, globalSearch, ownership, status],
   )
 
   const visibleDepartments = showAllDepartments ? departments.slice(1) : departments.slice(1, 8)
@@ -89,6 +93,7 @@ export default function DevicesView({
     || status !== 'Tất cả'
     || department !== 'Tất cả khoa/phòng'
     || category !== 'Tất cả nhóm thiết bị'
+    || branchFilter !== 'Tất cả chi nhánh'
     || ownership !== (isDepartmentUser ? 'mine' : 'all')
   const allFilteredSelected = filtered.length > 0 && filtered.every((device) => selected.includes(device.id))
 
@@ -97,6 +102,7 @@ export default function DevicesView({
     setStatus('Tất cả')
     setDepartment('Tất cả khoa/phòng')
     setCategory('Tất cả nhóm thiết bị')
+    setBranchFilter('Tất cả chi nhánh')
     setOwnership(isDepartmentUser ? 'mine' : 'all')
   }
 
@@ -195,6 +201,28 @@ export default function DevicesView({
             )}
           </div>
 
+          {branches && (
+            <div className="filter-block">
+              <div className="filter-title"><Building2 size={16} /><strong>Chi nhánh</strong></div>
+              <div className="check-filter-list">
+                <button type="button" onClick={() => setBranchFilter('Tất cả chi nhánh')} className={branchFilter === 'Tất cả chi nhánh' ? 'selected' : ''}>
+                  <span className="fake-check">{branchFilter === 'Tất cả chi nhánh' && <Check size={12} />}</span>
+                  <span>Tất cả ({devices.length})</span>
+                </button>
+                {branches.map((branch) => {
+                  const count = devices.filter((device) => device.branchId === branch.id).length
+                  return (
+                    <button key={branch.id} type="button" onClick={() => setBranchFilter(branch.id)} className={branchFilter === branch.id ? 'selected' : ''}>
+                      <span className="fake-check">{branchFilter === branch.id && <Check size={12} />}</span>
+                      <span>{branch.shortName}</span>
+                      <b>{count}</b>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="filter-block">
             <div className="filter-title"><ListFilter size={16} /><strong>Tình trạng</strong></div>
             <div className="check-filter-list">
@@ -267,7 +295,7 @@ export default function DevicesView({
                     <tr>
                       <th className="check-col"><input type="checkbox" checked={allFilteredSelected} onChange={toggleAll} aria-label="Chọn tất cả" /></th>
                       <th>Thiết bị</th>
-                      <th>Mã thiết bị</th>
+                      <th>Mã HIS</th>
                       <th>Model / Seri</th>
                       <th>Vị trí sử dụng</th>
                       <th>Bảo trì tiếp theo</th>
@@ -284,17 +312,17 @@ export default function DevicesView({
                           <td>
                             <button className="device-name-cell" type="button" onClick={() => onOpenDevice(device)}>
                               <DeviceVisual category={device.category} />
-                              <span><strong>{device.name}</strong><small>{device.category} · {device.code}</small></span>
+                              <span><strong>{device.name}</strong><small><b className="cell-code">{device.code}</b> · {device.category}</small></span>
                             </button>
                           </td>
                           <td>
-                            <button className="code-link" type="button" onClick={() => onOpenDevice(device)}>{device.code}</button>
-                            <small className="cell-sub">HIS: {device.hisCode}</small>
+                            <strong className="cell-primary cell-code">{device.hisCode}</strong>
+                            <small className="cell-sub">{device.manufacturer}</small>
                           </td>
                           <td><strong className="cell-primary">{device.model}</strong><small className="cell-sub">S/N: {device.serial}</small></td>
                           <td>
                             <strong className="cell-primary">{device.department}{device.shared && <i className="shared-flag" title="Cho phép mượn liên khoa"><Share2 size={12} /></i>}</strong>
-                            <small className="cell-sub">{device.room}</small>
+                            <small className="cell-sub">{device.room}{branches && <> · <BranchChip branchId={device.branchId} branches={branches} /></>}</small>
                           </td>
                           <td>
                             <strong className={`cell-primary ${days < 0 ? 'date-overdue' : days <= 7 ? 'date-soon' : ''}`}>{formatDate(device.nextMaintenance)}</strong>
@@ -323,6 +351,7 @@ export default function DevicesView({
                           <strong>{device.name}</strong>
                           <small>{device.code} · {device.model}</small>
                           <small>{device.department} · {device.room}</small>
+                          {branches && <BranchChip branchId={device.branchId} branches={branches} />}
                         </div>
                         <StatusBadge label={device.status} />
                       </button>

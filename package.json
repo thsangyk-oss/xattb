@@ -11,6 +11,8 @@
     "start": "node server.mjs --production"
   },
   "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "@vitejs/plugin-react": "latest",
     "express": "^5.2.1",
     "lucide-react": "latest",
