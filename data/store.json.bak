@@ -1,0 +1,2539 @@
+{
+  "devices": [
+    {
+      "id": "dev-001",
+      "code": "TBYT-HSTC-001",
+      "hisCode": "HIS-92104",
+      "name": "Máy thở chức năng cao",
+      "category": "Hô hấp",
+      "model": "Puritan Bennett 980",
+      "serial": "PB980-23-0481",
+      "manufacturer": "Medtronic",
+      "origin": "Hoa Kỳ",
+      "manufactureYear": 2023,
+      "usageDate": "2023-04-05",
+      "contractDate": "2023-03-12",
+      "handoverDate": "2023-03-28",
+      "warrantyEnd": "2028-03-28",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-08-24",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Hồi sức tích cực",
+      "room": "ICU 01",
+      "supplier": "Công ty TNHH Thiết bị Minh Khang",
+      "price": 1280000000,
+      "status": "Chờ bảo trì",
+      "shared": true,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        },
+        {
+          "id": "doc-03",
+          "name": "Phieu-bao-hanh-PB980.pdf",
+          "type": "Bảo hành",
+          "size": "860 KB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-22T08:20:00",
+      "acceptanceDate": "2023-03-28",
+      "warrantyStart": "2023-03-28",
+      "branchId": "cu-chi"
+    },
+    {
+      "id": "dev-002",
+      "code": "TBYT-CDHA-014",
+      "hisCode": "HIS-88329",
+      "name": "Máy siêu âm màu 4D",
+      "category": "Chẩn đoán hình ảnh",
+      "model": "Voluson E10",
+      "serial": "GEV-E10-19384",
+      "manufacturer": "GE Healthcare",
+      "origin": "Áo",
+      "manufactureYear": 2022,
+      "usageDate": "2022-09-16",
+      "contractDate": "2022-08-02",
+      "handoverDate": "2022-09-10",
+      "warrantyEnd": "2027-09-10",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-10-12",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "room": "Phòng Siêu âm 02",
+      "supplier": "Công ty CP Y tế Việt Pháp",
+      "price": 3450000000,
+      "status": "Đang hoạt động",
+      "shared": true,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-19T14:10:00",
+      "acceptanceDate": "2022-09-10",
+      "warrantyStart": "2022-09-10",
+      "branchId": "tay-ninh"
+    },
+    {
+      "id": "dev-003",
+      "code": "TBYT-CDHA-006",
+      "hisCode": "HIS-87512",
+      "name": "Máy X-quang kỹ thuật số",
+      "category": "Chẩn đoán hình ảnh",
+      "model": "MULTIX Impact C",
+      "serial": "SMX-2206-417",
+      "manufacturer": "Siemens Healthineers",
+      "origin": "Đức",
+      "manufactureYear": 2022,
+      "usageDate": "2022-07-22",
+      "contractDate": "2022-05-18",
+      "handoverDate": "2022-07-12",
+      "warrantyEnd": "2027-07-12",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-11-06",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "room": "Phòng X-quang 01",
+      "supplier": "Công ty CP Y tế Việt Pháp",
+      "price": 5890000000,
+      "status": "Đang hoạt động",
+      "shared": false,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-14T09:45:00",
+      "acceptanceDate": "2022-07-12",
+      "warrantyStart": "2022-07-12",
+      "branchId": "long-an"
+    },
+    {
+      "id": "dev-004",
+      "code": "TBYT-CC-028",
+      "hisCode": "HIS-90117",
+      "name": "Máy theo dõi bệnh nhân",
+      "category": "Theo dõi bệnh nhân",
+      "model": "IntelliVue MX450",
+      "serial": "MX450-DE-8290",
+      "manufacturer": "Philips",
+      "origin": "Đức",
+      "manufactureYear": 2021,
+      "usageDate": "2021-12-08",
+      "contractDate": "2021-10-20",
+      "handoverDate": "2021-11-29",
+      "warrantyEnd": "2026-11-29",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-09-02",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Cấp cứu",
+      "room": "Buồng cấp cứu 03",
+      "supplier": "Công ty TNHH Sao Mai Medical",
+      "price": 468000000,
+      "status": "Đang sửa chữa",
+      "shared": true,
+      "documents": [
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-22T10:04:00",
+      "acceptanceDate": "2021-11-29",
+      "warrantyStart": "2021-11-29",
+      "branchId": "vinh-long"
+    },
+    {
+      "id": "dev-005",
+      "code": "TBYT-HSTC-042",
+      "hisCode": "HIS-92189",
+      "name": "Bơm tiêm điện",
+      "category": "Tiêm truyền",
+      "model": "Perfusor Space",
+      "serial": "BBP-881-0426",
+      "manufacturer": "B. Braun",
+      "origin": "Đức",
+      "manufactureYear": 2024,
+      "usageDate": "2024-06-15",
+      "contractDate": "2024-05-04",
+      "handoverDate": "2024-06-10",
+      "warrantyEnd": "2027-06-10",
+      "maintenanceCycle": 12,
+      "nextMaintenance": "2027-05-18",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Hồi sức tích cực",
+      "room": "ICU 02",
+      "supplier": "Công ty TNHH B. Braun Việt Nam",
+      "price": 78000000,
+      "status": "Đang hoạt động",
+      "shared": true,
+      "documents": [],
+      "lastUpdated": "2026-07-25T11:30:00",
+      "acceptanceDate": "2024-06-10",
+      "warrantyStart": "2024-06-10",
+      "branchId": "tay-nguyen"
+    },
+    {
+      "id": "dev-006",
+      "code": "TBYT-XN-011",
+      "hisCode": "HIS-86114",
+      "name": "Máy xét nghiệm sinh hóa",
+      "category": "Xét nghiệm",
+      "model": "Cobas c 311",
+      "serial": "RC311-198-77",
+      "manufacturer": "Roche",
+      "origin": "Thụy Sĩ",
+      "manufactureYear": 2020,
+      "usageDate": "2020-11-18",
+      "contractDate": "2020-09-09",
+      "handoverDate": "2020-11-06",
+      "warrantyEnd": "2025-11-06",
+      "maintenanceCycle": 3,
+      "nextMaintenance": "2026-08-18",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Xét nghiệm",
+      "room": "Phòng Sinh hóa",
+      "supplier": "Công ty Roche Việt Nam",
+      "price": 2180000000,
+      "status": "Đang sửa chữa",
+      "shared": false,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-21T16:42:00",
+      "acceptanceDate": "2020-11-06",
+      "warrantyStart": "2020-11-06",
+      "branchId": "cu-chi"
+    },
+    {
+      "id": "dev-007",
+      "code": "TBYT-NS-003",
+      "hisCode": "HIS-87943",
+      "name": "Hệ thống nội soi tiêu hóa",
+      "category": "Nội soi",
+      "model": "EVIS X1 CV-1500",
+      "serial": "OLY-X1-4307",
+      "manufacturer": "Olympus",
+      "origin": "Nhật Bản",
+      "manufactureYear": 2023,
+      "usageDate": "2023-10-20",
+      "contractDate": "2023-08-03",
+      "handoverDate": "2023-10-12",
+      "warrantyEnd": "2028-10-12",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-12-20",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Nội soi",
+      "room": "Phòng Nội soi 01",
+      "supplier": "Công ty TNHH Olympus Việt Nam",
+      "price": 4320000000,
+      "status": "Đang hoạt động",
+      "shared": false,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-12T08:00:00",
+      "acceptanceDate": "2023-10-12",
+      "warrantyStart": "2023-10-12",
+      "branchId": "tay-ninh"
+    },
+    {
+      "id": "dev-008",
+      "code": "TBYT-TM-019",
+      "hisCode": "HIS-93408",
+      "name": "Máy điện tim 12 kênh",
+      "category": "Tim mạch",
+      "model": "Cardiofax M ECG-2350",
+      "serial": "NK-2350-7302",
+      "manufacturer": "Nihon Kohden",
+      "origin": "Nhật Bản",
+      "manufactureYear": 2024,
+      "usageDate": "2024-02-08",
+      "contractDate": "2023-12-19",
+      "handoverDate": "2024-01-29",
+      "warrantyEnd": "2027-01-29",
+      "maintenanceCycle": 12,
+      "nextMaintenance": "2027-01-22",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Tim mạch",
+      "room": "Phòng Điện tim",
+      "supplier": "Công ty CP Nihon Kohden Việt Nam",
+      "price": 286000000,
+      "status": "Đang hoạt động",
+      "shared": true,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-01T10:18:00",
+      "acceptanceDate": "2024-01-29",
+      "warrantyStart": "2024-01-29",
+      "branchId": "long-an"
+    },
+    {
+      "id": "dev-009",
+      "code": "TBYT-GMHS-008",
+      "hisCode": "HIS-84215",
+      "name": "Máy gây mê kèm thở",
+      "category": "Gây mê hồi sức",
+      "model": "Perseus A500",
+      "serial": "DRG-A5-12083",
+      "manufacturer": "Dräger",
+      "origin": "Đức",
+      "manufactureYear": 2019,
+      "usageDate": "2019-08-14",
+      "contractDate": "2019-05-22",
+      "handoverDate": "2019-08-02",
+      "warrantyEnd": "2024-08-02",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-08-27",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Gây mê hồi sức",
+      "room": "Phòng mổ 03",
+      "supplier": "Công ty TNHH Dräger Việt Nam",
+      "price": 2950000000,
+      "status": "Chờ bảo trì",
+      "shared": false,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-20T15:03:00",
+      "acceptanceDate": "2019-08-02",
+      "warrantyStart": "2019-08-02",
+      "branchId": "vinh-long"
+    },
+    {
+      "id": "dev-010",
+      "code": "TBYT-KSNK-004",
+      "hisCode": "HIS-85430",
+      "name": "Máy hấp tiệt trùng hơi nước",
+      "category": "Kiểm soát nhiễm khuẩn",
+      "model": "GSS67H",
+      "serial": "GTG-67H-558",
+      "manufacturer": "Getinge",
+      "origin": "Thụy Điển",
+      "manufactureYear": 2018,
+      "usageDate": "2018-06-21",
+      "contractDate": "2018-03-16",
+      "handoverDate": "2018-06-08",
+      "warrantyEnd": "2023-06-08",
+      "maintenanceCycle": 3,
+      "nextMaintenance": "2026-09-15",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "room": "Khu tiệt khuẩn trung tâm",
+      "supplier": "Công ty CP Thiết bị Y tế Hoàng Gia",
+      "price": 3260000000,
+      "status": "Đang hoạt động",
+      "shared": false,
+      "documents": [
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-07-29T09:00:00",
+      "acceptanceDate": "2018-06-08",
+      "warrantyStart": "2018-06-08",
+      "branchId": "tay-nguyen"
+    },
+    {
+      "id": "dev-011",
+      "code": "TBYT-TNT-016",
+      "hisCode": "HIS-89666",
+      "name": "Máy chạy thận nhân tạo",
+      "category": "Lọc máu",
+      "model": "5008S CorDiax",
+      "serial": "FMC-5008-9016",
+      "manufacturer": "Fresenius Medical Care",
+      "origin": "Đức",
+      "manufactureYear": 2021,
+      "usageDate": "2021-07-09",
+      "contractDate": "2021-04-15",
+      "handoverDate": "2021-06-28",
+      "warrantyEnd": "2026-06-28",
+      "maintenanceCycle": 6,
+      "nextMaintenance": "2026-10-08",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Thận nhân tạo",
+      "room": "Phòng Lọc máu 02",
+      "supplier": "Công ty Fresenius Kabi Việt Nam",
+      "price": 1120000000,
+      "status": "Đang hoạt động",
+      "shared": true,
+      "documents": [
+        {
+          "id": "doc-01",
+          "name": "Hop-dong-mua-sam-2023.pdf",
+          "type": "Hợp đồng",
+          "size": "2,4 MB",
+          "uploadedAt": "12/03/2023"
+        },
+        {
+          "id": "doc-02",
+          "name": "Bien-ban-nghiem-thu.pdf",
+          "type": "Nghiệm thu",
+          "size": "1,8 MB",
+          "uploadedAt": "28/03/2023"
+        }
+      ],
+      "lastUpdated": "2026-08-17T13:12:00",
+      "acceptanceDate": "2021-06-28",
+      "warrantyStart": "2021-06-28",
+      "branchId": "cu-chi"
+    },
+    {
+      "id": "dev-012",
+      "code": "TBYT-PT-021",
+      "hisCode": "HIS-84109",
+      "name": "Đèn mổ treo trần hai nhánh",
+      "category": "Phẫu thuật",
+      "model": "PowerLED II",
+      "serial": "MQ-PL2-7701",
+      "manufacturer": "Maquet",
+      "origin": "Pháp",
+      "manufactureYear": 2019,
+      "usageDate": "2019-09-06",
+      "contractDate": "2019-06-12",
+      "handoverDate": "2019-08-27",
+      "warrantyEnd": "2024-08-27",
+      "maintenanceCycle": 12,
+      "nextMaintenance": "2027-02-10",
+      "company": "Bệnh viện Đa khoa Xuyên Á",
+      "department": "Khoa Gây mê hồi sức",
+      "room": "Phòng mổ 01",
+      "supplier": "Công ty CP Thiết bị Y tế Hoàng Gia",
+      "price": 1850000000,
+      "status": "Ngừng sử dụng",
+      "shared": false,
+      "documents": [],
+      "lastUpdated": "2026-08-05T16:20:00",
+      "acceptanceDate": "2019-08-27",
+      "warrantyStart": "2019-08-27",
+      "branchId": "tay-ninh"
+    }
+  ],
+  "incidents": [
+    {
+      "id": "inc-087",
+      "code": "SC-2026-0087",
+      "deviceId": "dev-004",
+      "title": "Màn hình chập chờn, mất tín hiệu SpO₂",
+      "description": "Màn hình nhấp nháy sau khoảng 10 phút sử dụng, đầu đo SpO₂ không nhận tín hiệu.",
+      "priority": "Khẩn cấp",
+      "status": "Đang xử lý",
+      "reporter": "ĐD. Nguyễn Thùy Linh",
+      "reporterDepartment": "Khoa Cấp cứu",
+      "createdAt": "2026-08-22T07:42:00",
+      "assignee": "KS. Trần Minh Quân",
+      "nextActionDate": "2026-08-22",
+      "hasPhoto": true,
+      "notes": [
+        {
+          "id": "note-01",
+          "author": "KS. Trần Minh Quân",
+          "content": "Đã kiểm tra nguồn và cáp SpO₂, cần thay cáp tín hiệu dự phòng.",
+          "time": "22/08/2026, 09:15"
+        }
+      ],
+      "repairHistory": []
+    },
+    {
+      "id": "inc-086",
+      "code": "SC-2026-0086",
+      "deviceId": "dev-006",
+      "title": "Máy báo lỗi nhiệt độ buồng phản ứng",
+      "description": "Mã lỗi E-407 xuất hiện khi chạy mẫu QC đầu ngày.",
+      "priority": "Cao",
+      "status": "Chờ linh kiện",
+      "reporter": "KTV. Phạm Quốc Huy",
+      "reporterDepartment": "Khoa Xét nghiệm",
+      "createdAt": "2026-08-21T15:18:00",
+      "assignee": "Roche Việt Nam",
+      "nextActionDate": "2026-08-24",
+      "hasPhoto": true,
+      "notes": [
+        {
+          "id": "note-02",
+          "author": "Phòng TTBYT",
+          "content": "Nhà cung cấp xác nhận giao cảm biến nhiệt vào sáng 24/08.",
+          "time": "22/08/2026, 08:30"
+        }
+      ],
+      "repairHistory": []
+    },
+    {
+      "id": "inc-085",
+      "code": "SC-2026-0085",
+      "deviceId": "dev-001",
+      "title": "Cần kiểm tra cảnh báo áp lực đường thở",
+      "description": "Cảnh báo áp lực cao xuất hiện không ổn định khi test máy.",
+      "priority": "Cao",
+      "status": "Mới tiếp nhận",
+      "reporter": "BS. Lê Anh Tuấn",
+      "reporterDepartment": "Khoa Hồi sức tích cực",
+      "createdAt": "2026-08-22T10:06:00",
+      "assignee": "Chưa phân công",
+      "nextActionDate": "2026-08-22",
+      "hasPhoto": false,
+      "notes": [],
+      "repairHistory": []
+    },
+    {
+      "id": "inc-084",
+      "code": "SC-2026-0084",
+      "deviceId": "dev-010",
+      "title": "Gioăng cửa buồng hấp rò hơi nhẹ",
+      "description": "Phát hiện hơi thoát tại mép dưới cửa trong chu trình 134°C.",
+      "priority": "Trung bình",
+      "status": "Đang xử lý",
+      "reporter": "ĐD. Vũ Ngọc Mai",
+      "reporterDepartment": "Khoa Kiểm soát nhiễm khuẩn",
+      "createdAt": "2026-08-20T11:23:00",
+      "assignee": "KS. Nguyễn Đức Anh",
+      "nextActionDate": "2026-08-25",
+      "hasPhoto": true,
+      "notes": [],
+      "repairHistory": []
+    },
+    {
+      "id": "inc-083",
+      "code": "SC-2026-0083",
+      "deviceId": "dev-008",
+      "title": "Giấy in ECG bị lệch mép",
+      "description": "Cuộn giấy lệch khi in báo cáo đủ 12 chuyển đạo.",
+      "priority": "Thấp",
+      "status": "Đã hoàn tất",
+      "reporter": "ĐD. Trần Ngọc Hà",
+      "reporterDepartment": "Khoa Tim mạch",
+      "createdAt": "2026-08-19T08:48:00",
+      "assignee": "KS. Trần Minh Quân",
+      "hasPhoto": false,
+      "notes": [],
+      "repairHistory": []
+    },
+    {
+      "id": "inc-082",
+      "code": "SC-2026-0082",
+      "deviceId": "dev-005",
+      "title": "Phím xác nhận phản hồi chậm",
+      "description": "Phím OK cần nhấn mạnh hơn bình thường.",
+      "priority": "Trung bình",
+      "status": "Đã hoàn tất",
+      "reporter": "ĐD. Võ Thanh Thảo",
+      "reporterDepartment": "Khoa Hồi sức tích cực",
+      "createdAt": "2026-08-18T14:35:00",
+      "assignee": "KS. Nguyễn Đức Anh",
+      "hasPhoto": true,
+      "notes": [],
+      "repairHistory": []
+    }
+  ],
+  "events": [
+    {
+      "id": "mnt-01",
+      "deviceId": "dev-001",
+      "type": "Bảo trì định kỳ",
+      "date": "2026-08-24",
+      "time": "08:30",
+      "provider": "Công ty TNHH Thiết bị Minh Khang",
+      "assignee": "KS. Trần Minh Quân",
+      "reminderDays": 3,
+      "status": "Sắp tới",
+      "note": "Kiểm tra bộ lọc, cảm biến lưu lượng và pin dự phòng."
+    },
+    {
+      "id": "mnt-02",
+      "deviceId": "dev-009",
+      "type": "Hiệu chuẩn",
+      "date": "2026-08-27",
+      "time": "13:30",
+      "provider": "Công ty TNHH Dräger Việt Nam",
+      "assignee": "KS. Nguyễn Đức Anh",
+      "reminderDays": 5,
+      "status": "Sắp tới",
+      "note": "Hiệu chuẩn lưu lượng khí mê và cảm biến O₂."
+    },
+    {
+      "id": "mnt-03",
+      "deviceId": "dev-004",
+      "type": "Sửa chữa",
+      "date": "2026-08-22",
+      "time": "14:00",
+      "provider": "Phòng Trang thiết bị y tế",
+      "assignee": "KS. Trần Minh Quân",
+      "reminderDays": 0,
+      "status": "Đang thực hiện",
+      "note": "Thay cáp SpO₂ và chạy kiểm thử an toàn điện."
+    },
+    {
+      "id": "mnt-04",
+      "deviceId": "dev-006",
+      "type": "Sửa chữa",
+      "date": "2026-08-24",
+      "time": "10:00",
+      "provider": "Công ty Roche Việt Nam",
+      "assignee": "KS. Nguyễn Đức Anh",
+      "reminderDays": 1,
+      "status": "Sắp tới",
+      "note": "Thay cảm biến nhiệt buồng phản ứng."
+    },
+    {
+      "id": "mnt-05",
+      "deviceId": "dev-010",
+      "type": "Bảo trì định kỳ",
+      "date": "2026-08-18",
+      "time": "09:00",
+      "provider": "Công ty CP Thiết bị Y tế Hoàng Gia",
+      "assignee": "KS. Nguyễn Đức Anh",
+      "reminderDays": 3,
+      "status": "Quá hạn",
+      "note": "Chờ xác nhận lịch lại từ khoa sử dụng."
+    },
+    {
+      "id": "mnt-06",
+      "deviceId": "dev-002",
+      "type": "Bảo hành",
+      "date": "2026-08-14",
+      "time": "08:00",
+      "provider": "Công ty CP Y tế Việt Pháp",
+      "assignee": "KS. Trần Minh Quân",
+      "reminderDays": 7,
+      "status": "Hoàn tất",
+      "note": "Đã kiểm tra đầu dò và cập nhật phần mềm hệ thống."
+    }
+  ],
+  "permissions": [
+    {
+      "id": "perm-dep-cu-chi-khoa-hoi-suc-tich-cuc",
+      "branchId": "cu-chi",
+      "name": "Khoa Hồi sức tích cực",
+      "users": 8,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-cap-cuu",
+      "branchId": "cu-chi",
+      "name": "Khoa Cấp cứu",
+      "users": 15,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-chan-doan-hinh-anh",
+      "branchId": "cu-chi",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "users": 22,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-xet-nghiem",
+      "branchId": "cu-chi",
+      "name": "Khoa Xét nghiệm",
+      "users": 11,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-gay-me-hoi-suc",
+      "branchId": "cu-chi",
+      "name": "Khoa Gây mê hồi sức",
+      "users": 18,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-tim-mach",
+      "branchId": "cu-chi",
+      "name": "Khoa Tim mạch",
+      "users": 25,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-than-nhan-tao",
+      "branchId": "cu-chi",
+      "name": "Khoa Thận nhân tạo",
+      "users": 14,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "cu-chi",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "users": 21,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-noi-soi",
+      "branchId": "cu-chi",
+      "name": "Khoa Nội soi",
+      "users": 10,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-ngoai-tong-quat",
+      "branchId": "cu-chi",
+      "name": "Khoa Ngoại tổng quát",
+      "users": 17,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-san",
+      "branchId": "cu-chi",
+      "name": "Khoa Sản",
+      "users": 24,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-cu-chi-khoa-nhi",
+      "branchId": "cu-chi",
+      "name": "Khoa Nhi",
+      "users": 13,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-cu-chi-phong-trang-thiet-bi-y-te",
+      "branchId": "cu-chi",
+      "name": "Phòng Trang thiết bị y tế",
+      "users": 20,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-hoi-suc-tich-cuc",
+      "branchId": "tay-ninh",
+      "name": "Khoa Hồi sức tích cực",
+      "users": 9,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-cap-cuu",
+      "branchId": "tay-ninh",
+      "name": "Khoa Cấp cứu",
+      "users": 16,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-chan-doan-hinh-anh",
+      "branchId": "tay-ninh",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "users": 23,
+      "view": true,
+      "borrow": false,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-xet-nghiem",
+      "branchId": "tay-ninh",
+      "name": "Khoa Xét nghiệm",
+      "users": 12,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-gay-me-hoi-suc",
+      "branchId": "tay-ninh",
+      "name": "Khoa Gây mê hồi sức",
+      "users": 19,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-tim-mach",
+      "branchId": "tay-ninh",
+      "name": "Khoa Tim mạch",
+      "users": 8,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-than-nhan-tao",
+      "branchId": "tay-ninh",
+      "name": "Khoa Thận nhân tạo",
+      "users": 15,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "tay-ninh",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "users": 22,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-noi-soi",
+      "branchId": "tay-ninh",
+      "name": "Khoa Nội soi",
+      "users": 11,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-ngoai-tong-quat",
+      "branchId": "tay-ninh",
+      "name": "Khoa Ngoại tổng quát",
+      "users": 18,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-san",
+      "branchId": "tay-ninh",
+      "name": "Khoa Sản",
+      "users": 25,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-khoa-nhi",
+      "branchId": "tay-ninh",
+      "name": "Khoa Nhi",
+      "users": 14,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-ninh-phong-trang-thiet-bi-y-te",
+      "branchId": "tay-ninh",
+      "name": "Phòng Trang thiết bị y tế",
+      "users": 21,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-long-an-khoa-hoi-suc-tich-cuc",
+      "branchId": "long-an",
+      "name": "Khoa Hồi sức tích cực",
+      "users": 10,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-cap-cuu",
+      "branchId": "long-an",
+      "name": "Khoa Cấp cứu",
+      "users": 17,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-chan-doan-hinh-anh",
+      "branchId": "long-an",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "users": 24,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-xet-nghiem",
+      "branchId": "long-an",
+      "name": "Khoa Xét nghiệm",
+      "users": 13,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-gay-me-hoi-suc",
+      "branchId": "long-an",
+      "name": "Khoa Gây mê hồi sức",
+      "users": 20,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-long-an-khoa-tim-mach",
+      "branchId": "long-an",
+      "name": "Khoa Tim mạch",
+      "users": 9,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-than-nhan-tao",
+      "branchId": "long-an",
+      "name": "Khoa Thận nhân tạo",
+      "users": 16,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "long-an",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "users": 23,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-noi-soi",
+      "branchId": "long-an",
+      "name": "Khoa Nội soi",
+      "users": 12,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-ngoai-tong-quat",
+      "branchId": "long-an",
+      "name": "Khoa Ngoại tổng quát",
+      "users": 19,
+      "view": true,
+      "borrow": false,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-long-an-khoa-san",
+      "branchId": "long-an",
+      "name": "Khoa Sản",
+      "users": 8,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-khoa-nhi",
+      "branchId": "long-an",
+      "name": "Khoa Nhi",
+      "users": 15,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-long-an-phong-trang-thiet-bi-y-te",
+      "branchId": "long-an",
+      "name": "Phòng Trang thiết bị y tế",
+      "users": 22,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-hoi-suc-tich-cuc",
+      "branchId": "vinh-long",
+      "name": "Khoa Hồi sức tích cực",
+      "users": 11,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-cap-cuu",
+      "branchId": "vinh-long",
+      "name": "Khoa Cấp cứu",
+      "users": 18,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-chan-doan-hinh-anh",
+      "branchId": "vinh-long",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "users": 25,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-xet-nghiem",
+      "branchId": "vinh-long",
+      "name": "Khoa Xét nghiệm",
+      "users": 14,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-gay-me-hoi-suc",
+      "branchId": "vinh-long",
+      "name": "Khoa Gây mê hồi sức",
+      "users": 21,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-tim-mach",
+      "branchId": "vinh-long",
+      "name": "Khoa Tim mạch",
+      "users": 10,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-than-nhan-tao",
+      "branchId": "vinh-long",
+      "name": "Khoa Thận nhân tạo",
+      "users": 17,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "vinh-long",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "users": 24,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-noi-soi",
+      "branchId": "vinh-long",
+      "name": "Khoa Nội soi",
+      "users": 13,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-ngoai-tong-quat",
+      "branchId": "vinh-long",
+      "name": "Khoa Ngoại tổng quát",
+      "users": 20,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-san",
+      "branchId": "vinh-long",
+      "name": "Khoa Sản",
+      "users": 9,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-vinh-long-khoa-nhi",
+      "branchId": "vinh-long",
+      "name": "Khoa Nhi",
+      "users": 16,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-vinh-long-phong-trang-thiet-bi-y-te",
+      "branchId": "vinh-long",
+      "name": "Phòng Trang thiết bị y tế",
+      "users": 23,
+      "view": true,
+      "borrow": false,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-hoi-suc-tich-cuc",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Hồi sức tích cực",
+      "users": 12,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-cap-cuu",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Cấp cứu",
+      "users": 19,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-chan-doan-hinh-anh",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "users": 8,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-xet-nghiem",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Xét nghiệm",
+      "users": 15,
+      "view": true,
+      "borrow": false,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-gay-me-hoi-suc",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Gây mê hồi sức",
+      "users": 22,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-tim-mach",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Tim mạch",
+      "users": 11,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-than-nhan-tao",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Thận nhân tạo",
+      "users": 18,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "users": 25,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-noi-soi",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Nội soi",
+      "users": 14,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-ngoai-tong-quat",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Ngoại tổng quát",
+      "users": 21,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-san",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Sản",
+      "users": 10,
+      "view": true,
+      "borrow": true,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-khoa-nhi",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Nhi",
+      "users": 17,
+      "view": true,
+      "borrow": false,
+      "approve": false
+    },
+    {
+      "id": "perm-dep-tay-nguyen-phong-trang-thiet-bi-y-te",
+      "branchId": "tay-nguyen",
+      "name": "Phòng Trang thiết bị y tế",
+      "users": 24,
+      "view": true,
+      "borrow": true,
+      "approve": true
+    }
+  ],
+  "departments": [
+    {
+      "id": "dep-cu-chi-khoa-hoi-suc-tich-cuc",
+      "branchId": "cu-chi",
+      "name": "Khoa Hồi sức tích cực",
+      "shortName": "HSTC",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-cap-cuu",
+      "branchId": "cu-chi",
+      "name": "Khoa Cấp cứu",
+      "shortName": "Cấp cứu",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-chan-doan-hinh-anh",
+      "branchId": "cu-chi",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "shortName": "CĐHA",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-xet-nghiem",
+      "branchId": "cu-chi",
+      "name": "Khoa Xét nghiệm",
+      "shortName": "Xét nghiệm",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-gay-me-hoi-suc",
+      "branchId": "cu-chi",
+      "name": "Khoa Gây mê hồi sức",
+      "shortName": "GMHS",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-tim-mach",
+      "branchId": "cu-chi",
+      "name": "Khoa Tim mạch",
+      "shortName": "Tim mạch",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-than-nhan-tao",
+      "branchId": "cu-chi",
+      "name": "Khoa Thận nhân tạo",
+      "shortName": "Thận NT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "cu-chi",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "shortName": "KSNK",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-noi-soi",
+      "branchId": "cu-chi",
+      "name": "Khoa Nội soi",
+      "shortName": "Nội soi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-ngoai-tong-quat",
+      "branchId": "cu-chi",
+      "name": "Khoa Ngoại tổng quát",
+      "shortName": "Ngoại TQ",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-san",
+      "branchId": "cu-chi",
+      "name": "Khoa Sản",
+      "shortName": "Sản",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-khoa-nhi",
+      "branchId": "cu-chi",
+      "name": "Khoa Nhi",
+      "shortName": "Nhi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-cu-chi-phong-trang-thiet-bi-y-te",
+      "branchId": "cu-chi",
+      "name": "Phòng Trang thiết bị y tế",
+      "shortName": "TTBYT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-hoi-suc-tich-cuc",
+      "branchId": "tay-ninh",
+      "name": "Khoa Hồi sức tích cực",
+      "shortName": "HSTC",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-cap-cuu",
+      "branchId": "tay-ninh",
+      "name": "Khoa Cấp cứu",
+      "shortName": "Cấp cứu",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-chan-doan-hinh-anh",
+      "branchId": "tay-ninh",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "shortName": "CĐHA",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-xet-nghiem",
+      "branchId": "tay-ninh",
+      "name": "Khoa Xét nghiệm",
+      "shortName": "Xét nghiệm",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-gay-me-hoi-suc",
+      "branchId": "tay-ninh",
+      "name": "Khoa Gây mê hồi sức",
+      "shortName": "GMHS",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-tim-mach",
+      "branchId": "tay-ninh",
+      "name": "Khoa Tim mạch",
+      "shortName": "Tim mạch",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-than-nhan-tao",
+      "branchId": "tay-ninh",
+      "name": "Khoa Thận nhân tạo",
+      "shortName": "Thận NT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "tay-ninh",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "shortName": "KSNK",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-noi-soi",
+      "branchId": "tay-ninh",
+      "name": "Khoa Nội soi",
+      "shortName": "Nội soi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-ngoai-tong-quat",
+      "branchId": "tay-ninh",
+      "name": "Khoa Ngoại tổng quát",
+      "shortName": "Ngoại TQ",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-san",
+      "branchId": "tay-ninh",
+      "name": "Khoa Sản",
+      "shortName": "Sản",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-khoa-nhi",
+      "branchId": "tay-ninh",
+      "name": "Khoa Nhi",
+      "shortName": "Nhi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-ninh-phong-trang-thiet-bi-y-te",
+      "branchId": "tay-ninh",
+      "name": "Phòng Trang thiết bị y tế",
+      "shortName": "TTBYT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-hoi-suc-tich-cuc",
+      "branchId": "long-an",
+      "name": "Khoa Hồi sức tích cực",
+      "shortName": "HSTC",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-cap-cuu",
+      "branchId": "long-an",
+      "name": "Khoa Cấp cứu",
+      "shortName": "Cấp cứu",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-chan-doan-hinh-anh",
+      "branchId": "long-an",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "shortName": "CĐHA",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-xet-nghiem",
+      "branchId": "long-an",
+      "name": "Khoa Xét nghiệm",
+      "shortName": "Xét nghiệm",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-gay-me-hoi-suc",
+      "branchId": "long-an",
+      "name": "Khoa Gây mê hồi sức",
+      "shortName": "GMHS",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-tim-mach",
+      "branchId": "long-an",
+      "name": "Khoa Tim mạch",
+      "shortName": "Tim mạch",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-than-nhan-tao",
+      "branchId": "long-an",
+      "name": "Khoa Thận nhân tạo",
+      "shortName": "Thận NT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "long-an",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "shortName": "KSNK",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-noi-soi",
+      "branchId": "long-an",
+      "name": "Khoa Nội soi",
+      "shortName": "Nội soi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-ngoai-tong-quat",
+      "branchId": "long-an",
+      "name": "Khoa Ngoại tổng quát",
+      "shortName": "Ngoại TQ",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-san",
+      "branchId": "long-an",
+      "name": "Khoa Sản",
+      "shortName": "Sản",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-khoa-nhi",
+      "branchId": "long-an",
+      "name": "Khoa Nhi",
+      "shortName": "Nhi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-long-an-phong-trang-thiet-bi-y-te",
+      "branchId": "long-an",
+      "name": "Phòng Trang thiết bị y tế",
+      "shortName": "TTBYT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-hoi-suc-tich-cuc",
+      "branchId": "vinh-long",
+      "name": "Khoa Hồi sức tích cực",
+      "shortName": "HSTC",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-cap-cuu",
+      "branchId": "vinh-long",
+      "name": "Khoa Cấp cứu",
+      "shortName": "Cấp cứu",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-chan-doan-hinh-anh",
+      "branchId": "vinh-long",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "shortName": "CĐHA",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-xet-nghiem",
+      "branchId": "vinh-long",
+      "name": "Khoa Xét nghiệm",
+      "shortName": "Xét nghiệm",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-gay-me-hoi-suc",
+      "branchId": "vinh-long",
+      "name": "Khoa Gây mê hồi sức",
+      "shortName": "GMHS",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-tim-mach",
+      "branchId": "vinh-long",
+      "name": "Khoa Tim mạch",
+      "shortName": "Tim mạch",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-than-nhan-tao",
+      "branchId": "vinh-long",
+      "name": "Khoa Thận nhân tạo",
+      "shortName": "Thận NT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "vinh-long",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "shortName": "KSNK",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-noi-soi",
+      "branchId": "vinh-long",
+      "name": "Khoa Nội soi",
+      "shortName": "Nội soi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-ngoai-tong-quat",
+      "branchId": "vinh-long",
+      "name": "Khoa Ngoại tổng quát",
+      "shortName": "Ngoại TQ",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-san",
+      "branchId": "vinh-long",
+      "name": "Khoa Sản",
+      "shortName": "Sản",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-khoa-nhi",
+      "branchId": "vinh-long",
+      "name": "Khoa Nhi",
+      "shortName": "Nhi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-vinh-long-phong-trang-thiet-bi-y-te",
+      "branchId": "vinh-long",
+      "name": "Phòng Trang thiết bị y tế",
+      "shortName": "TTBYT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-hoi-suc-tich-cuc",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Hồi sức tích cực",
+      "shortName": "HSTC",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-cap-cuu",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Cấp cứu",
+      "shortName": "Cấp cứu",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-chan-doan-hinh-anh",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Chẩn đoán hình ảnh",
+      "shortName": "CĐHA",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-xet-nghiem",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Xét nghiệm",
+      "shortName": "Xét nghiệm",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-gay-me-hoi-suc",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Gây mê hồi sức",
+      "shortName": "GMHS",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-tim-mach",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Tim mạch",
+      "shortName": "Tim mạch",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-than-nhan-tao",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Thận nhân tạo",
+      "shortName": "Thận NT",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-kiem-soat-nhiem-khuan",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Kiểm soát nhiễm khuẩn",
+      "shortName": "KSNK",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-noi-soi",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Nội soi",
+      "shortName": "Nội soi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-ngoai-tong-quat",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Ngoại tổng quát",
+      "shortName": "Ngoại TQ",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-san",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Sản",
+      "shortName": "Sản",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-khoa-nhi",
+      "branchId": "tay-nguyen",
+      "name": "Khoa Nhi",
+      "shortName": "Nhi",
+      "head": "",
+      "phone": ""
+    },
+    {
+      "id": "dep-tay-nguyen-phong-trang-thiet-bi-y-te",
+      "branchId": "tay-nguyen",
+      "name": "Phòng Trang thiết bị y tế",
+      "shortName": "TTBYT",
+      "head": "",
+      "phone": ""
+    }
+  ],
+  "users": [
+    {
+      "id": "user-admin",
+      "username": "admin",
+      "displayName": "Quản trị hệ thống",
+      "role": "admin",
+      "active": true,
+      "password": "Xuyena123",
+      "lastLogin": "2026-09-23T02:30:44.108Z"
+    },
+    {
+      "id": "user-cu-chi",
+      "username": "moderator-cu-chi",
+      "displayName": "Quản lý Củ Chi",
+      "role": "moderator",
+      "branchId": "cu-chi",
+      "active": true,
+      "password": "Xuyena123",
+      "lastLogin": "2026-09-23T02:29:59.141Z"
+    },
+    {
+      "id": "user-tay-ninh",
+      "username": "moderator-tay-ninh",
+      "displayName": "Quản lý Tây Ninh",
+      "role": "moderator",
+      "branchId": "tay-ninh",
+      "active": true,
+      "password": "Xuyena123",
+      "lastLogin": "2026-09-23T12:55:32.350Z"
+    },
+    {
+      "id": "user-long-an",
+      "username": "moderator-long-an",
+      "displayName": "Quản lý Long An",
+      "role": "moderator",
+      "branchId": "long-an",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-vinh-long",
+      "username": "moderator-vinh-long",
+      "displayName": "Quản lý Vĩnh Long",
+      "role": "moderator",
+      "branchId": "vinh-long",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-tay-nguyen",
+      "username": "moderator-tay-nguyen",
+      "displayName": "Quản lý Tây Nguyên",
+      "role": "moderator",
+      "branchId": "tay-nguyen",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-hoi-suc-tich-cuc",
+      "username": "hstc.cu-chi",
+      "displayName": "HSTC · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Hồi sức tích cực",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-cap-cuu",
+      "username": "cap-cuu.cu-chi",
+      "displayName": "Cấp cứu · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Cấp cứu",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-chan-doan-hinh-anh",
+      "username": "cdha.cu-chi",
+      "displayName": "CĐHA · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-xet-nghiem",
+      "username": "xet-nghiem.cu-chi",
+      "displayName": "Xét nghiệm · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Xét nghiệm",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-gay-me-hoi-suc",
+      "username": "gmhs.cu-chi",
+      "displayName": "GMHS · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Gây mê hồi sức",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-tim-mach",
+      "username": "tim-mach.cu-chi",
+      "displayName": "Tim mạch · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Tim mạch",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-than-nhan-tao",
+      "username": "than-nt.cu-chi",
+      "displayName": "Thận NT · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Thận nhân tạo",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-kiem-soat-nhiem-khuan",
+      "username": "ksnk.cu-chi",
+      "displayName": "KSNK · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-noi-soi",
+      "username": "noi-soi.cu-chi",
+      "displayName": "Nội soi · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Nội soi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-ngoai-tong-quat",
+      "username": "ngoai-tq.cu-chi",
+      "displayName": "Ngoại TQ · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Ngoại tổng quát",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-san",
+      "username": "san.cu-chi",
+      "displayName": "Sản · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Sản",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-khoa-nhi",
+      "username": "nhi.cu-chi",
+      "displayName": "Nhi · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Khoa Nhi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-cu-chi-phong-trang-thiet-bi-y-te",
+      "username": "ttbyt.cu-chi",
+      "displayName": "TTBYT · Củ Chi",
+      "role": "department",
+      "branchId": "cu-chi",
+      "department": "Phòng Trang thiết bị y tế",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-hoi-suc-tich-cuc",
+      "username": "hstc.tay-ninh",
+      "displayName": "HSTC · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Hồi sức tích cực",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-cap-cuu",
+      "username": "cap-cuu.tay-ninh",
+      "displayName": "Cấp cứu · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Cấp cứu",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-chan-doan-hinh-anh",
+      "username": "cdha.tay-ninh",
+      "displayName": "CĐHA · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-xet-nghiem",
+      "username": "xet-nghiem.tay-ninh",
+      "displayName": "Xét nghiệm · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Xét nghiệm",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-gay-me-hoi-suc",
+      "username": "gmhs.tay-ninh",
+      "displayName": "GMHS · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Gây mê hồi sức",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-tim-mach",
+      "username": "tim-mach.tay-ninh",
+      "displayName": "Tim mạch · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Tim mạch",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-than-nhan-tao",
+      "username": "than-nt.tay-ninh",
+      "displayName": "Thận NT · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Thận nhân tạo",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-kiem-soat-nhiem-khuan",
+      "username": "ksnk.tay-ninh",
+      "displayName": "KSNK · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-noi-soi",
+      "username": "noi-soi.tay-ninh",
+      "displayName": "Nội soi · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Nội soi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-ngoai-tong-quat",
+      "username": "ngoai-tq.tay-ninh",
+      "displayName": "Ngoại TQ · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Ngoại tổng quát",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-san",
+      "username": "san.tay-ninh",
+      "displayName": "Sản · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Sản",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-khoa-nhi",
+      "username": "nhi.tay-ninh",
+      "displayName": "Nhi · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Khoa Nhi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-ninh-phong-trang-thiet-bi-y-te",
+      "username": "ttbyt.tay-ninh",
+      "displayName": "TTBYT · Tây Ninh",
+      "role": "department",
+      "branchId": "tay-ninh",
+      "department": "Phòng Trang thiết bị y tế",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-hoi-suc-tich-cuc",
+      "username": "hstc.long-an",
+      "displayName": "HSTC · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Hồi sức tích cực",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-cap-cuu",
+      "username": "cap-cuu.long-an",
+      "displayName": "Cấp cứu · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Cấp cứu",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-chan-doan-hinh-anh",
+      "username": "cdha.long-an",
+      "displayName": "CĐHA · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-xet-nghiem",
+      "username": "xet-nghiem.long-an",
+      "displayName": "Xét nghiệm · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Xét nghiệm",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-gay-me-hoi-suc",
+      "username": "gmhs.long-an",
+      "displayName": "GMHS · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Gây mê hồi sức",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-tim-mach",
+      "username": "tim-mach.long-an",
+      "displayName": "Tim mạch · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Tim mạch",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-than-nhan-tao",
+      "username": "than-nt.long-an",
+      "displayName": "Thận NT · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Thận nhân tạo",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-kiem-soat-nhiem-khuan",
+      "username": "ksnk.long-an",
+      "displayName": "KSNK · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-noi-soi",
+      "username": "noi-soi.long-an",
+      "displayName": "Nội soi · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Nội soi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-ngoai-tong-quat",
+      "username": "ngoai-tq.long-an",
+      "displayName": "Ngoại TQ · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Ngoại tổng quát",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-san",
+      "username": "san.long-an",
+      "displayName": "Sản · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Sản",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-khoa-nhi",
+      "username": "nhi.long-an",
+      "displayName": "Nhi · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Khoa Nhi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-long-an-phong-trang-thiet-bi-y-te",
+      "username": "ttbyt.long-an",
+      "displayName": "TTBYT · Long An",
+      "role": "department",
+      "branchId": "long-an",
+      "department": "Phòng Trang thiết bị y tế",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-hoi-suc-tich-cuc",
+      "username": "hstc.vinh-long",
+      "displayName": "HSTC · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Hồi sức tích cực",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-cap-cuu",
+      "username": "cap-cuu.vinh-long",
+      "displayName": "Cấp cứu · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Cấp cứu",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-chan-doan-hinh-anh",
+      "username": "cdha.vinh-long",
+      "displayName": "CĐHA · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-xet-nghiem",
+      "username": "xet-nghiem.vinh-long",
+      "displayName": "Xét nghiệm · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Xét nghiệm",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-gay-me-hoi-suc",
+      "username": "gmhs.vinh-long",
+      "displayName": "GMHS · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Gây mê hồi sức",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-tim-mach",
+      "username": "tim-mach.vinh-long",
+      "displayName": "Tim mạch · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Tim mạch",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-than-nhan-tao",
+      "username": "than-nt.vinh-long",
+      "displayName": "Thận NT · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Thận nhân tạo",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-kiem-soat-nhiem-khuan",
+      "username": "ksnk.vinh-long",
+      "displayName": "KSNK · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-noi-soi",
+      "username": "noi-soi.vinh-long",
+      "displayName": "Nội soi · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Nội soi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-ngoai-tong-quat",
+      "username": "ngoai-tq.vinh-long",
+      "displayName": "Ngoại TQ · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Ngoại tổng quát",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-san",
+      "username": "san.vinh-long",
+      "displayName": "Sản · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Sản",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-khoa-nhi",
+      "username": "nhi.vinh-long",
+      "displayName": "Nhi · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Khoa Nhi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-vinh-long-phong-trang-thiet-bi-y-te",
+      "username": "ttbyt.vinh-long",
+      "displayName": "TTBYT · Vĩnh Long",
+      "role": "department",
+      "branchId": "vinh-long",
+      "department": "Phòng Trang thiết bị y tế",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-hoi-suc-tich-cuc",
+      "username": "hstc.tay-nguyen",
+      "displayName": "HSTC · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Hồi sức tích cực",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-cap-cuu",
+      "username": "cap-cuu.tay-nguyen",
+      "displayName": "Cấp cứu · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Cấp cứu",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-chan-doan-hinh-anh",
+      "username": "cdha.tay-nguyen",
+      "displayName": "CĐHA · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Chẩn đoán hình ảnh",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-xet-nghiem",
+      "username": "xet-nghiem.tay-nguyen",
+      "displayName": "Xét nghiệm · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Xét nghiệm",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-gay-me-hoi-suc",
+      "username": "gmhs.tay-nguyen",
+      "displayName": "GMHS · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Gây mê hồi sức",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-tim-mach",
+      "username": "tim-mach.tay-nguyen",
+      "displayName": "Tim mạch · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Tim mạch",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-than-nhan-tao",
+      "username": "than-nt.tay-nguyen",
+      "displayName": "Thận NT · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Thận nhân tạo",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-kiem-soat-nhiem-khuan",
+      "username": "ksnk.tay-nguyen",
+      "displayName": "KSNK · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Kiểm soát nhiễm khuẩn",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-noi-soi",
+      "username": "noi-soi.tay-nguyen",
+      "displayName": "Nội soi · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Nội soi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-ngoai-tong-quat",
+      "username": "ngoai-tq.tay-nguyen",
+      "displayName": "Ngoại TQ · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Ngoại tổng quát",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-san",
+      "username": "san.tay-nguyen",
+      "displayName": "Sản · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Sản",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-khoa-nhi",
+      "username": "nhi.tay-nguyen",
+      "displayName": "Nhi · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Khoa Nhi",
+      "active": true,
+      "password": "Xuyena123"
+    },
+    {
+      "id": "user-dep-tay-nguyen-phong-trang-thiet-bi-y-te",
+      "username": "ttbyt.tay-nguyen",
+      "displayName": "TTBYT · Tây Nguyên",
+      "role": "department",
+      "branchId": "tay-nguyen",
+      "department": "Phòng Trang thiết bị y tế",
+      "active": true,
+      "password": "Xuyena123"
+    }
+  ],
+  "hospitalName": "Bệnh viện Đa khoa Xuyên Á",
+  "branches": [
+    {
+      "id": "cu-chi",
+      "name": "BV Xuyên Á Củ Chi",
+      "shortName": "Củ Chi",
+      "region": "TP. Hồ Chí Minh",
+      "inventoryCount": 64
+    },
+    {
+      "id": "tay-ninh",
+      "name": "BV Xuyên Á Tây Ninh",
+      "shortName": "Tây Ninh",
+      "region": "Tây Ninh",
+      "inventoryCount": 39
+    },
+    {
+      "id": "long-an",
+      "name": "BV Xuyên Á Long An",
+      "shortName": "Long An",
+      "region": "Long An",
+      "inventoryCount": 36
+    },
+    {
+      "id": "vinh-long",
+      "name": "BV Xuyên Á Vĩnh Long",
+      "shortName": "Vĩnh Long",
+      "region": "Vĩnh Long",
+      "inventoryCount": 42
+    },
+    {
+      "id": "tay-nguyen",
+      "name": "BV Xuyên Á Tây Nguyên",
+      "shortName": "Tây Nguyên",
+      "region": "Tây Nguyên",
+      "inventoryCount": 33
+    }
+  ],
+  "updatedAt": "2026-09-23T12:55:32.352Z"
+}

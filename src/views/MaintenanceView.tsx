@@ -186,7 +186,7 @@ export default function MaintenanceView({
 
       <section className="work-queue-panel">
         <div className="queue-tabs-row">
-          <div className="view-toggle" aria-label="Kiểu hiển thị">
+          <div className="view-toggle labeled" aria-label="Kiểu hiển thị">
             <button className={mode === 'list' ? 'active' : ''} onClick={() => setMode('list')} type="button" title="Danh sách theo mức khẩn">
               <List size={16} /> Danh sách
             </button>

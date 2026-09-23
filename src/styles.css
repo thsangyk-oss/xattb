@@ -731,6 +731,8 @@ input[type="checkbox"] {
   color: var(--muted);
 }
 .view-toggle button.active { background: var(--surface); color: var(--accent); box-shadow: var(--sh-1); }
+/* Toggle có nhãn chữ (tab Lịch bảo trì): rộng theo nội dung thay vì ô vuông icon. */
+.view-toggle.labeled button { width: auto; padding: 0 var(--s3); gap: var(--s1); font-size: var(--fs-sm); font-weight: 600; }
 
 .filter-reset-button, .filter-mobile-button {
   display: inline-flex;
